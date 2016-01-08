@@ -2,4 +2,6 @@ target
 *.jar
 *.iml
 *.log
+pom.xml.versionsBackup
+
 
