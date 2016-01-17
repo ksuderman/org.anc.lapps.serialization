@@ -32,7 +32,7 @@
         <version>2.0.2-SNAPSHOT</version>
     </parent>
     <properties>
-        <anc.common.version>3.5.0</anc.common.version>
+        <!-- <anc.common.version>3.5.0</anc.common.version> -->
         <lapps.discriminator.version>2.2.1-SNAPSHOT</lapps.discriminator.version>
         <jackson.version>2.3.1</jackson.version>
         <groovy.version>2.4.3</groovy.version>
@@ -108,6 +108,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+        <!-- Not on Central yet.
         <dependency>
             <groupId>org.anc.json</groupId>
             <artifactId>validator</artifactId>
@@ -120,6 +121,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        -->
     </dependencies>
     <!--
     <distributionManagement>
