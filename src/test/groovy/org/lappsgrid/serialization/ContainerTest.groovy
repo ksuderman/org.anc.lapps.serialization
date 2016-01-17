@@ -25,6 +25,7 @@ import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
 
+import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
 
@@ -199,6 +200,41 @@ public class ContainerTest {
 
         container = new Container(Container.ContextType.LOCAL)
         assertTrue container.context == Container.LOCAL_CONTEXT
+    }
+
+    @Test
+    public void testCopyConstructor() {
+        Container container = new Container()
+        container.metadata.key = 'value'
+        container.text = "Hello world"
+        container.language = "en"
+        View view = container.newView()
+        view.id = "v1"
+        view.add(new Annotation("w1", "word", 0, 5))
+        view.add(new Annotation("w2", "word", 6, 11))
+        view.addContains("words", "tests", "string")
+
+        Container copy = new Container(container)
+        assertEquals container.text, copy.text
+        assertEquals 'en', container.language
+        assertEquals 'en', copy.language
+        assertEquals container.language, copy.language
+        assertEquals container.context, copy.context
+        assertEquals 1, copy.metadata.size()
+        assertNotNull copy.metadata['key']
+        assertEquals 'value', copy.metadata.key
+        assertEquals container.views.size(), copy.views.size()
+        View v1 = container.views[0]
+        View v2 = copy.views[0]
+        assertEquals v1.id, v2.id
+        assertEquals 1, v2.metadata.size()
+        assertNotNull v2.metadata['contains']
+        assertNotNull v2.metadata.contains.words
+        assertEquals 'tests', v2.metadata.contains.words.producer
+        assertEquals 'string', v2.metadata.contains.words.type
+        assertEquals 2, v2.annotations.size()
+        assertEquals "w1", v2.annotations[0].id
+        assertEquals "w2", v2.annotations[1].id
     }
 
     @Ignore

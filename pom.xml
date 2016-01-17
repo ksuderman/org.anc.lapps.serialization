@@ -55,7 +55,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
@@ -82,7 +81,6 @@
                 <version>2.9.2-01</version>
                 <extensions>true</extensions>
             </plugin>
-            -->
         </plugins>
     </build>
     <dependencies>
@@ -92,12 +90,14 @@
             <version>${groovy.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.apache.ivy</groupId>
             <artifactId>ivy</artifactId>
             <version>${ivy.version}</version>
             <scope>compile</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>discriminator</artifactId>
@@ -121,10 +121,12 @@
             </exclusions>
         </dependency>
     </dependencies>
+    <!--
     <distributionManagement>
         <site>
             <id>maven-site</id>
             <url>scp://suderman@anc.org:22022/home/www/anc/projects/lapps/serialization</url>
         </site>
     </distributionManagement>
+    -->
 </project>

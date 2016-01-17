@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import org.lappsgrid.serialization.Utils
 
 /**
  * Information about a single standoff annotation.
@@ -75,6 +76,17 @@ public class Annotation {
         this.label = label
         this.start = start
         this.end = end
+    }
+
+    public Annotation(Annotation annotation) {
+        this.id = annotation.id
+        this.label = annotation.label
+        this.start = annotation.start
+        this.end = annotation.end
+        this.atType = annotation.atType
+        this.type = annotation.type
+        this.features = Utils.deepCopy(annotation.features)
+        this.metadata = Utils.deepCopy(annotation.metadata)
     }
 
     public Annotation(Map map) {
