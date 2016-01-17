@@ -19,6 +19,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.lappsgrid.maven</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>2.0.2-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.lappsgrid</groupId>
@@ -26,11 +31,22 @@
     <version>2.2.0-SNAPSHOT</version>
     <name>LAPPS Exchange Data Structures (LEDS)</name>
     <description>Data structures to serialize to/from JSON-LD.</description>
-    <parent>
-        <groupId>org.lappsgrid.maven</groupId>
-        <artifactId>parent-pom</artifactId>
-        <version>2.0.2-SNAPSHOT</version>
-    </parent>
+    <url>https://github.com/lapps/org.lappsgrid.serialization</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/lapps/org.lappsgrid.serialization</url>
+        <connection>scm:git:https://github.com/lapps/org.lappsgrid.serialization.git</connection>
+        <developerConnection>scm:git:https://github.com/lapps/org.lappsgrid.serialization.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <url>https://github.com/lapps/org.lappsgrid.serialization/issues</url>
+        <system>GitHub issues</system>
+    </issueManagement>
     <properties>
         <!-- <anc.common.version>3.5.0</anc.common.version> -->
         <lapps.discriminator.version>2.2.1-SNAPSHOT</lapps.discriminator.version>
