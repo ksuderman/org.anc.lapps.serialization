@@ -1,13 +1,18 @@
 language: groovy
 branches:
-    only:
-        - master
-        - develop
+  only:
+  - master
+  - develop
+env:
+  global:
+  - secure: BhtPKjORoSDyQGaL8dW5x3icM+ItKnsJCEBRUUvzYsH2iZ1TOD+RrJSaV6p+okf/2LpBdc8xzsIoeBR0m3BZDOmuOZw9+xHLJH/s56dBvGh2/JMnxksSH7mpJiTfdfzRPMGIDOykvrDSmT3wqRXaZZhhGhr2uB1EVb8UtJEZcnI=
+  - secure: GZOF0XQ3aeU8hRV/y4nADK51hLVK8gawlnK1orEAtYL2ORbG3/kwXBlLHcvPTY+8aN68orOyJvDI82l0jA4/VnhHhquYjHk9BdtZQY3TnSkqLxTLlUfBiAQEZAd/9KCtADVdN05mpWmFKxvI0xIU6SpR9okqpR84SpN8Lfqrpwo=
+  - secure: i4206g+LeoqfPE44dBc67RiKsLXVoZG5sLhErtL0TjPReb8H11mDslJQ01wyb28GNHsfDoqmm8j62d/P8mTGWuZ77hY/olxyvgBFz89NqCVbPkf+TudqxyvuIiOT+div48PIist6ZAMPsmjR2UTVuXDalZ/g7Gwxx9lT9mEVBTM=
+  - secure: cAh027ZRE6wHWVKyiEe6RMnw07jDY9pU8gA1COxLs8pfyyHSi81dsCnXRdwTHy6BUDxfGIWxRDvOyS4d5xKvSXPHzcpbfrAUzlhpGG2JtDFz5hiZIoDFyiyitli6LuHMppHDAwT8nJ9faQzbOX4O5SG3G61iTf8chr+k2BgAJBs=
+  - secure: RjlQwCWT6jsllGYRR3O/fzqCCWau+ypEHJaUEX3x9n4Tv38RnYld9nm5wOrfi77hTJ44X6QvrueMUhQ7RA+XbhPDfiAMAh4sdzQaFDNh3uwIlT6ViTNVFJp1hXxoqs0YbQ9k1B7aWm+uVTcLEC6XnMQ0qR25ZhuxX/y0PcrDed4=
+  - secure: auJXL1AUyI/NC6Y7pDUENG1Fgj+6lwZyL2vMwLVpyHDxt4GYsJRgSE+UW+kleg+8V68JmmwSU8z4D2nrDlo+Y85WiIBmqy2UZvM6r4ki/BFP9tRtrErg+7kuFu78MFNL7w0THFUIU2KKtYjjVp7XwSQtUKtbYy1HeEIdYTYUEZA=
 before_install:
-    - curl -O http://www.anc.org/tools/settings.xml
-install:
-    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V --settings settings.xml
+- chmod a+x ./deploy.sh
 script:
-    - mvn clean test --settings settings.xml
-
-    
+- mvn clean test --settings settings.xml
+- ./deploy.sh
