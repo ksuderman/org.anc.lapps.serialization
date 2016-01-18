@@ -16,5 +16,5 @@ before_install:
 script:
 - mvn clean test --settings settings.xml
 after_success:
-- if [ "$TRAVIS_BRANCH" = "master] ; then ./deploy.sh ; fi
+- if [ "$TRAVIS_BRANCH" = "develop"] ; then ./deploy.sh ; fi
 
