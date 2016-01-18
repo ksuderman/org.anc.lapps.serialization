@@ -25,7 +25,7 @@
     </links>
     <menu name="Documentation">
         <item name="JavaDocs" href="apidocs/index.html"/>
-        <item name="GroovyDocs" href="groovydocss/index.html"/>
+        <item name="GroovyDocs" href="groovydoc/index.html"/>
     </menu>
     <menu ref="parent" />
     <menu ref="modules" />
