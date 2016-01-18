@@ -47,6 +47,10 @@
         <url>https://github.com/lapps/org.lappsgrid.serialization/issues</url>
         <system>GitHub issues</system>
     </issueManagement>
+    <ciManagement>
+        <url>https://travis-ci.org/lapps/org.lappsgrid.serialization</url>
+        <system>travis</system>
+    </ciManagement>
     <properties>
         <!-- <anc.common.version>3.5.0</anc.common.version> -->
         <lapps.discriminator.version>2.2.1-SNAPSHOT</lapps.discriminator.version>

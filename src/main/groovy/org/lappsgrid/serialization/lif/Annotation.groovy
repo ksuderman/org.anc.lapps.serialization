@@ -130,6 +130,22 @@ public class Annotation {
     }
 
     @JsonIgnore
+    void addFeature(String name, Map value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, List value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, Set value) {
+        features[name] = value
+    }
+
+
+    @JsonIgnore
     String getFeature(String name) {
         return features[name]
     }
