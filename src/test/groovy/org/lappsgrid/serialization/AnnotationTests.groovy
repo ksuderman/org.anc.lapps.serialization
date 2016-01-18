@@ -10,18 +10,23 @@ import static org.junit.Assert.*
  */
 class AnnotationTests {
 
+    Annotation annotation
+
+    @Before
+    void setup() {
+        annotation = new Annotation("id", "label", 0, 1)
+    }
     @Test
     void testCopyConstructor() {
-        Annotation original = new Annotation("label", "type", 0, 1)
-        original.features.pos = 'VB'
-        original.features.word = 'be'
-        original.features.list = ['a', 'b', 'c']
-        original.features.set = ['d', 'e', 'f'] as HashSet
-        Annotation copy = new Annotation(original)
+        annotation.features.pos = 'VB'
+        annotation.features.word = 'be'
+        annotation.features.list = ['a', 'b', 'c']
+        annotation.features.set = ['d', 'e', 'f'] as HashSet
+        Annotation copy = new Annotation(annotation)
         // This ensures a deep copy was performed of original.
-        original.features = [:]
+        annotation.features = [:]
+        assertEquals('id', copy.id)
         assertEquals('label', copy.label)
-        assertEquals('type', copy.type)
         assertEquals(0, copy.start)
         assertEquals(1, copy.end)
         assertEquals(4, copy.features.size())
@@ -33,11 +38,69 @@ class AnnotationTests {
 
     @Test
     void testAddSetFeature() {
-        Annotation annotation = new Annotation("label", "type", 0, 1)
         annotation.addFeature("set", [1,2,3] as HashSet)
         String json = Serializer.toPrettyJson(annotation)
         annotation = Serializer.parse(json, Annotation)
         assertTrue(annotation.features.set == [1,2,3])
+    }
 
+    @Test
+    void testGetFeatureSet() {
+        annotation.addFeature('set', [1, 2, 3] as HashSet)
+        Object value = annotation.getFeatureSet('set')
+        assertTrue (value instanceof Set)
+        Set set = (Set) value
+        assertTrue set == [1,2,3] as HashSet
+    }
+
+    @Test
+    void testFeatureFeatureListAsSet() {
+        annotation.addFeature('set', [1,2,3])
+        Object value = annotation.getFeatureSet('set')
+        assertTrue (value instanceof Set)
+        Set set = (Set) value
+        assertEquals(3, set.size())
+        assertTrue(set.contains(1))
+        assertTrue(set.contains(2))
+        assertTrue(set.contains(3))
+    }
+
+    @Test(expected = LappsIOException)
+    void testGetFeatureSetEx() {
+        annotation.addFeature('name', 'value')
+        annotation.getFeatureSet('name')
+    }
+
+    @Test
+    void testGetFeatureMap() {
+        annotation.addFeature('map', [key: 'value'])
+        Map map = annotation.getFeatureMap('map')
+        assertNotNull(map)
+        assertEquals(1, map.size())
+        assertEquals('value', map.key)
+    }
+
+    @Test(expected = LappsIOException)
+    void testGetFeatureMapEx() {
+        annotation.addFeature('name', 'value')
+        annotation.getFeatureMap('name')
+    }
+
+    @Test
+    void testGetFeatureList() {
+        annotation.addFeature('list', [1,2,3])
+        Object value = annotation.getFeatureList('list')
+        assertTrue(value instanceof List)
+        List list = (List) value
+        assertEquals(3, list.size())
+        assertEquals(1, list[0])
+        assertEquals(2, list[1])
+        assertEquals(3, list[2])
+    }
+
+    @Test(expected = LappsIOException)
+    void testGetFeatureListEx() {
+        annotation.addFeature('name', 'value')
+        annotation.getFeatureList('name')
     }
 }
