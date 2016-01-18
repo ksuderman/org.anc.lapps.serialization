@@ -203,6 +203,21 @@ public class ContainerTest {
     }
 
     @Test
+    public void testInitFromMap() {
+        Container container = ContainerFactory.createContainer()
+
+        // A round-trip through JSON calls the Container.initFromMap
+        // method.
+        String json = new DataContainer(container).asJson()
+        Data data = Serializer.parse(json, Data)
+        Container copy = new Container(data.payload)
+        assertEquals container.text, copy.text
+        assertEquals(container.language, copy.language)
+        assertEquals(container.views.size(), copy.views.size())
+        assertEquals(container.context, copy.context)
+    }
+
+    @Test
     public void testCopyConstructor() {
         Container container = new Container()
         container.metadata.key = 'value'

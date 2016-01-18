@@ -226,25 +226,21 @@ public class Container {
         if (map == null) {
             return
         }
-        this.context = map.context
+        this.context = Utils.deepCopy(map['@context'])
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']
-        this.metadata = [:]
-        map.metadata.each { name, value ->
-            this.metadata[name] = value
-        }
-        this.views = []
-        map.views.each { v ->
-            View view = new View(v)
-//            v.metadata.each { key,value ->
-//                view.metadata[key] = value
-//            }
-//            v.annotations.each { annotation ->
-//                view.annotations << new Annotation(annotation)
-//            }
-            this.views << view
-        }
+        this.metadata = Utils.deepCopy(map.metadata)
+        this.views = Utils.deepCopy(map.views)
+//        this.metadata = [:]
+//        map.metadata.each { name, value ->
+//            this.metadata[name] = value
+//        }
+//        this.views = []
+//        map.views.each { v ->
+//            View view = new View(v)
+//            this.views << view
+//        }
     }
 
 }
