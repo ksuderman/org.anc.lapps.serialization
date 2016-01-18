@@ -27,4 +27,5 @@ openssl aes-256-cbc -d -pass pass:"$ENCRYPTION_PASSWORD" -in pubring.gpg.enc -ou
 mvn -DskipTests=true package javadoc:jar source:jar gpg:sign deploy -Dgpg.passphrase="$PGP_PASSPHRASE" --settings settings.xml
 
 # 4. Build and deploy the Maven site to the gh_pages branch.
+src/test/resources/lappsdoc
 mvn site --settings settings.xml
