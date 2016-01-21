@@ -17,6 +17,7 @@
 package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import org.lappsgrid.serialization.Utils
 
 /**
  * A View consists of some metadata and a list of annotations.
@@ -66,6 +67,12 @@ public class View {
         map.annotations.each { a ->
             annotations << new Annotation(a)
         }
+    }
+
+    public View(View view) {
+        this.id = view.id
+        this.metadata = Utils.deepCopy(view.metadata)
+        this.annotations = Utils.deepCopy(view.annotations)
     }
 
     /**

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.lappsgrid.serialization.LappsIOException
+import org.lappsgrid.serialization.Utils
 
 /**
  * Container objects are the outer wrapper for all LIF objects.
@@ -124,6 +125,18 @@ public class Container {
         this(ContextType.REMOTE)
     }
 
+    public Container(Container container) {
+        this.content = new Content(container.content)
+        this.metadata = Utils.deepCopy(container.metadata)
+        this.views = Utils.deepCopy(container.views)
+        if (container.context instanceof String) {
+            this.context = container.context
+        }
+        else {
+            this.context = Utils.deepCopy((Map)container.context)
+        }
+    }
+
     protected Container(ContextType type) {
         content = new Content()
 //        mapper = new ObjectMapper()
@@ -136,6 +149,7 @@ public class Container {
             context = REMOTE_CONTEXT
         }
     }
+
 
     public Container(Map map) {
         initFromMap(map)
@@ -212,25 +226,21 @@ public class Container {
         if (map == null) {
             return
         }
-        this.context = map.context
+        this.context = Utils.deepCopy(map['@context'])
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']
-        this.metadata = [:]
-        map.metadata.each { name, value ->
-            this.metadata[name] = value
-        }
-        this.views = []
-        map.views.each { v ->
-            View view = new View(v)
-//            v.metadata.each { key,value ->
-//                view.metadata[key] = value
-//            }
-//            v.annotations.each { annotation ->
-//                view.annotations << new Annotation(annotation)
-//            }
-            this.views << view
-        }
+        this.metadata = Utils.deepCopy(map.metadata)
+        this.views = Utils.deepCopy(map.views)
+//        this.metadata = [:]
+//        map.metadata.each { name, value ->
+//            this.metadata[name] = value
+//        }
+//        this.views = []
+//        map.views.each { v ->
+//            View view = new View(v)
+//            this.views << view
+//        }
     }
 
 }

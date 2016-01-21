@@ -24,7 +24,6 @@ import org.junit.*
 import org.lappsgrid.serialization.datasource.GetRequest
 import org.lappsgrid.serialization.datasource.ListRequest
 import org.lappsgrid.serialization.lif.Container
-import org.lappsgrid.serialization.service.ExecuteRequest
 
 import static org.junit.Assert.*
 
@@ -56,14 +55,6 @@ class ValidationTests {
     }
 
     @Test
-    void validateExecute() {
-        Container container = ContainerFactory.createContainer()
-        ExecuteRequest execute = new ExecuteRequest(container)
-//        String json = Serializer.toPrettyJson(execute)
-        validate(execute.asJson(), "action/execute-schema.json")
-    }
-
-    @Test
     void validateContainer() {
         Container container = ContainerFactory.createContainer()
         String json = Serializer.toPrettyJson(container)
@@ -71,6 +62,7 @@ class ValidationTests {
     }
 
     void validate(String json, String schemaName) {
+        // TODO Uncomment this entire block
         Validator validator = getValidator(schemaName)
         ProcessingReport result = validator.validate(json)
         if (!result.success) {
@@ -82,6 +74,7 @@ class ValidationTests {
         }
     }
 
+    // TODO Uncomment this function when re-enabling validation tests.
     private Validator getValidator(String name) {
         return new Validator(new URL("http://vocab.lappsgrid.org/schema/$name"))
     }

@@ -46,6 +46,12 @@ class Contains {
 
     public Contains() { }
 
+    public Contains(Contains contains) {
+        this.url = contains.url
+        this.producer = contains.producer
+        this.type = contains.type
+    }
+
     public Contains(Map map) {
         if (map == null) {
             return

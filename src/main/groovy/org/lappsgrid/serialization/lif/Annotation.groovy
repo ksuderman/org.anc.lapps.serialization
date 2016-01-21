@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import org.lappsgrid.serialization.LappsIOException
+import org.lappsgrid.serialization.Utils
 
 /**
  * Information about a single standoff annotation.
@@ -77,6 +79,17 @@ public class Annotation {
         this.end = end
     }
 
+    public Annotation(Annotation annotation) {
+        this.id = annotation.id
+        this.label = annotation.label
+        this.start = annotation.start
+        this.end = annotation.end
+        this.atType = annotation.atType
+        this.type = annotation.type
+        this.features = Utils.deepCopy(annotation.features)
+        this.metadata = Utils.deepCopy(annotation.metadata)
+    }
+
     public Annotation(Map map) {
         map.each { key, value ->
             switch(key) {
@@ -118,8 +131,68 @@ public class Annotation {
     }
 
     @JsonIgnore
+    void addFeature(String name, Map value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, List value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, Set value) {
+        features[name] = value
+    }
+
+
+    @JsonIgnore
     String getFeature(String name) {
         return features[name]
+    }
+
+    @JsonIgnore
+    List getFeatureList(String name) throws LappsIOException {
+        Object value = features[name]
+        if (value == null) {
+            return null;
+        }
+        if (!(value instanceof List)) {
+            throw new LappsIOException("Feature value is not a List object.")
+        }
+        return (List) value
+    }
+
+    @JsonIgnore
+    Map getFeatureMap(String name) throws LappsIOException {
+        Object value = features[name]
+        if (value == null) {
+            return null;
+        }
+        if (!(value instanceof Map)) {
+            throw new LappsIOException("Feature value is not a Map object.")
+        }
+        return (Map) value
+    }
+
+    @JsonIgnore
+    Set getFeatureSet(String name) throws LappsIOException {
+        Object value = features[name]
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Set) {
+            return (Set) value
+        }
+        // TODO: This is a hackaround until the serialization classes
+        // fully support JSON-LD and the @set datatype.  Until then
+        // the serialization classes don't know that something that looks
+        // like a list (i.e. ['a', 'b', 'c']) is actually supposed to
+        // be parsed as a Set.
+        if (value instanceof List) {
+            return new HashSet((List)value)
+        }
+        throw new LappsIOException("Feature value is not a Set object.")
     }
 
     String toString() {

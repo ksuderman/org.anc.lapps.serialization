@@ -43,6 +43,11 @@ public class Content {
 
     public Content() { }
 
+    public Content(Content content) {
+        this.value = content.value
+        this.language = content.language
+    }
+
 //    public Content(Map map) {
 //        this.value = map['value']
 //        this.language = map['language']
