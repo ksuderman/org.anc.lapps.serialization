@@ -152,31 +152,31 @@ public class Annotation {
     }
 
     @JsonIgnore
-    List getFeatureList(String name) throws LappsIOException {
+    List getFeatureList(String name) throws IllegalArgumentException {
         Object value = features[name]
         if (value == null) {
             return null;
         }
         if (!(value instanceof List)) {
-            throw new LappsIOException("Feature value is not a List object.")
+            throw new IllegalArgumentException("Feature value is not a List object.")
         }
         return (List) value
     }
 
     @JsonIgnore
-    Map getFeatureMap(String name) throws LappsIOException {
+    Map getFeatureMap(String name) throws IllegalArgumentException {
         Object value = features[name]
         if (value == null) {
             return null;
         }
         if (!(value instanceof Map)) {
-            throw new LappsIOException("Feature value is not a Map object.")
+            throw new IllegalArgumentException("Feature value is not a Map object.")
         }
         return (Map) value
     }
 
     @JsonIgnore
-    Set getFeatureSet(String name) throws LappsIOException {
+    Set getFeatureSet(String name) throws IllegalArgumentException {
         Object value = features[name]
         if (value == null) {
             return null;
@@ -192,7 +192,7 @@ public class Annotation {
         if (value instanceof List) {
             return new HashSet((List)value)
         }
-        throw new LappsIOException("Feature value is not a Set object.")
+        throw new IllegalArgumentException("Feature value is not a Set object.")
     }
 
     String toString() {

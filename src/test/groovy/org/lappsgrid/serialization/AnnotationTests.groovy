@@ -65,7 +65,7 @@ class AnnotationTests {
         assertTrue(set.contains(3))
     }
 
-    @Test(expected = LappsIOException)
+    @Test(expected = IllegalArgumentException)
     void testGetFeatureSetEx() {
         annotation.addFeature('name', 'value')
         annotation.getFeatureSet('name')
@@ -80,7 +80,7 @@ class AnnotationTests {
         assertEquals('value', map.key)
     }
 
-    @Test(expected = LappsIOException)
+    @Test(expected = IllegalArgumentException)
     void testGetFeatureMapEx() {
         annotation.addFeature('name', 'value')
         annotation.getFeatureMap('name')
@@ -98,9 +98,10 @@ class AnnotationTests {
         assertEquals(3, list[2])
     }
 
-    @Test(expected = LappsIOException)
+    @Test(expected = IllegalArgumentException)
     void testGetFeatureListEx() {
         annotation.addFeature('name', 'value')
         annotation.getFeatureList('name')
     }
+
 }
