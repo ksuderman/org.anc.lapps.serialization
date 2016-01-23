@@ -153,10 +153,7 @@ public class Annotation {
 
     @JsonIgnore
     List getFeatureList(String name) throws IllegalArgumentException {
-        Object value = features[name]
-        if (value == null) {
-            return null;
-        }
+        Object value = get(name, { new ArrayList() })
         if (!(value instanceof List)) {
             throw new IllegalArgumentException("Feature value is not a List object.")
         }
@@ -165,10 +162,7 @@ public class Annotation {
 
     @JsonIgnore
     Map getFeatureMap(String name) throws IllegalArgumentException {
-        Object value = features[name]
-        if (value == null) {
-            return null;
-        }
+        Object value = get(name, { new HashMap() })
         if (!(value instanceof Map)) {
             throw new IllegalArgumentException("Feature value is not a Map object.")
         }
@@ -177,10 +171,7 @@ public class Annotation {
 
     @JsonIgnore
     Set getFeatureSet(String name) throws IllegalArgumentException {
-        Object value = features[name]
-        if (value == null) {
-            return null;
-        }
+        Object value = get(name, { new HashSet() })
         if (value instanceof Set) {
             return (Set) value
         }
@@ -193,6 +184,16 @@ public class Annotation {
             return new HashSet((List)value)
         }
         throw new IllegalArgumentException("Feature value is not a Set object.")
+    }
+
+    protected Object get(String name, Closure factory) {
+        Object value = features[name]
+        if (value) {
+            return value
+        }
+        value = factory()
+        features[name] = value
+        return value
     }
 
     String toString() {

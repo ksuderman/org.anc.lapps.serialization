@@ -10,12 +10,21 @@ import static org.junit.Assert.*
  */
 class AnnotationTests {
 
+    static final String FEATURE_NAME = "feature"
+    static final String FEATURE_VALUE = "value"
+
     Annotation annotation
 
     @Before
     void setup() {
         annotation = new Annotation("id", "label", 0, 1)
     }
+
+    @After
+    void teardown() {
+        annotation = null
+    }
+
     @Test
     void testCopyConstructor() {
         annotation.features.pos = 'VB'
@@ -46,8 +55,8 @@ class AnnotationTests {
 
     @Test
     void testGetFeatureSet() {
-        annotation.addFeature('set', [1, 2, 3] as HashSet)
-        Object value = annotation.getFeatureSet('set')
+        annotation.addFeature(FEATURE_NAME, [1, 2, 3] as HashSet)
+        Object value = annotation.getFeatureSet(FEATURE_NAME)
         assertTrue (value instanceof Set)
         Set set = (Set) value
         assertTrue set == [1,2,3] as HashSet
@@ -55,8 +64,8 @@ class AnnotationTests {
 
     @Test
     void testFeatureFeatureListAsSet() {
-        annotation.addFeature('set', [1,2,3])
-        Object value = annotation.getFeatureSet('set')
+        annotation.addFeature(FEATURE_NAME, [1,2,3])
+        Object value = annotation.getFeatureSet(FEATURE_NAME)
         assertTrue (value instanceof Set)
         Set set = (Set) value
         assertEquals(3, set.size())
@@ -67,14 +76,14 @@ class AnnotationTests {
 
     @Test(expected = IllegalArgumentException)
     void testGetFeatureSetEx() {
-        annotation.addFeature('name', 'value')
-        annotation.getFeatureSet('name')
+        annotation.addFeature(FEATURE_NAME, 'value')
+        annotation.getFeatureSet(FEATURE_NAME)
     }
 
     @Test
     void testGetFeatureMap() {
-        annotation.addFeature('map', [key: 'value'])
-        Map map = annotation.getFeatureMap('map')
+        annotation.addFeature(FEATURE_NAME, [key: 'value'])
+        Map map = annotation.getFeatureMap(FEATURE_NAME)
         assertNotNull(map)
         assertEquals(1, map.size())
         assertEquals('value', map.key)
@@ -82,14 +91,14 @@ class AnnotationTests {
 
     @Test(expected = IllegalArgumentException)
     void testGetFeatureMapEx() {
-        annotation.addFeature('name', 'value')
-        annotation.getFeatureMap('name')
+        annotation.addFeature(FEATURE_NAME, 'value')
+        annotation.getFeatureMap(FEATURE_NAME)
     }
 
     @Test
     void testGetFeatureList() {
-        annotation.addFeature('list', [1,2,3])
-        Object value = annotation.getFeatureList('list')
+        annotation.addFeature(FEATURE_NAME, [1,2,3])
+        Object value = annotation.getFeatureList(FEATURE_NAME)
         assertTrue(value instanceof List)
         List list = (List) value
         assertEquals(3, list.size())
@@ -100,8 +109,59 @@ class AnnotationTests {
 
     @Test(expected = IllegalArgumentException)
     void testGetFeatureListEx() {
-        annotation.addFeature('name', 'value')
-        annotation.getFeatureList('name')
+        annotation.addFeature(FEATURE_NAME, 'value')
+        annotation.getFeatureList(FEATURE_NAME)
     }
 
+    @Test
+    void testEmptyFeatureList() {
+        List empty = annotation.getFeatureList(FEATURE_NAME)
+        assertNotNull empty
+        assertEquals 0, empty.size()
+    }
+
+    @Test
+    void testModifyEmptyFeatureList() {
+        List list = annotation.getFeatureList(FEATURE_NAME)
+        assertEquals(0, list.size())
+        list.add(FEATURE_VALUE)
+        list = annotation.getFeatureList(FEATURE_NAME)
+        assertEquals(1, list.size())
+        assertEquals(FEATURE_VALUE, list[0])
+    }
+
+    @Test
+    void testEmptyFeatureMap() {
+        Map empty = annotation.getFeatureMap(FEATURE_NAME)
+        assertNotNull empty
+        assertEquals(0, empty.size())
+    }
+
+    @Test
+    void testModifyEmptyFeatureMap() {
+        Map map = annotation.getFeatureMap(FEATURE_NAME)
+        map[FEATURE_NAME] = FEATURE_VALUE
+        map = annotation.getFeatureMap(FEATURE_NAME)
+        assertEquals(1, map.size())
+        assertEquals(FEATURE_VALUE, map[FEATURE_NAME])
+    }
+
+    @Test
+    void testEmptyFeatureSet() {
+        Set empty = annotation.getFeatureSet(FEATURE_NAME)
+        assertNotNull empty
+        assertEquals(0, empty.size())
+    }
+
+    @Test
+    void testModifyEmptyFeatureSet() {
+        Set set = annotation.getFeatureSet(FEATURE_NAME)
+        // Add a duplicate value to ensure we really have a set.
+        set.add(FEATURE_VALUE)
+        set.add(FEATURE_VALUE)
+        set.add(FEATURE_NAME)
+        assertEquals(2, set.size())
+        set = annotation.getFeatureSet(FEATURE_NAME)
+        assertEquals(2, set.size())
+    }
 }
