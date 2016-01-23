@@ -18,7 +18,7 @@ To use this package you need to add following dependency to the project's pom.xm
 <dependency>
   <groupId>org.lappsgridl</groupId>
   <artifactId>serialization</artifactId>
-  <version>2.0.1</version>
+  <version>2.3.0</version>
 </dependency>
 ```
 
