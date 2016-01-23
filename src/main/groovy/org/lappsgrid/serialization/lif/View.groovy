@@ -144,4 +144,12 @@ public class View {
         metadata.contains[name] = new Contains(producer:producer, type:type)
     }
 
+    Annotation findById(String id) {
+        return annotations.find { it.id == id }
+    }
+
+    List<Annotation> findByAtType(String type) {
+        return annotations.findAll { it.atType == type }
+    }
+
 }
