@@ -62,4 +62,14 @@ class ViewTests {
         assertNotNull list
         assertEquals(0, list.size())
     }
+
+    @Test
+    void noStart() {
+        Annotation expected = view.newAnnotation("w1", "type")
+        String json = Serializer.toJson(expected)
+        Annotation actual = Serializer.parse(json, Annotation)
+        assertNotNull(actual)
+        assertNull(actual.start)
+        assertNull(actual.end)
+    }
 }

@@ -121,8 +121,14 @@ public class View {
         Annotation a = newAnnotation()
         a.id = id
         a.setAtType(type)
-        a.setStart(start)
-        a.setEnd(end)
+        // Only set start to a non-negative number.
+        if (start >= 0) {
+            a.setStart(start)
+            // Only set end to a non-negative number if start has been set.
+            if (end >= start) {
+                a.setEnd(end)
+            }
+        }
         return a
     }
 
