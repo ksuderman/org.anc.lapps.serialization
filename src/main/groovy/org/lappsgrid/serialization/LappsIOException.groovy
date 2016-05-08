@@ -14,9 +14,9 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization;
+package org.lappsgrid.serialization
 
-import java.io.IOException;
+import java.io.IOException
 
 /**
  * @author Keith Suderman
