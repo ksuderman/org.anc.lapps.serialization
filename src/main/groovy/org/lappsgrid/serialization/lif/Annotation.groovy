@@ -152,35 +152,26 @@ public class Annotation {
     }
 
     @JsonIgnore
-    List getFeatureList(String name) throws LappsIOException {
-        Object value = features[name]
-        if (value == null) {
-            return null;
-        }
+    List getFeatureList(String name) throws IllegalArgumentException {
+        Object value = get(name, { new ArrayList() })
         if (!(value instanceof List)) {
-            throw new LappsIOException("Feature value is not a List object.")
+            throw new IllegalArgumentException("Feature value is not a List object.")
         }
         return (List) value
     }
 
     @JsonIgnore
-    Map getFeatureMap(String name) throws LappsIOException {
-        Object value = features[name]
-        if (value == null) {
-            return null;
-        }
+    Map getFeatureMap(String name) throws IllegalArgumentException {
+        Object value = get(name, { new HashMap() })
         if (!(value instanceof Map)) {
-            throw new LappsIOException("Feature value is not a Map object.")
+            throw new IllegalArgumentException("Feature value is not a Map object.")
         }
         return (Map) value
     }
 
     @JsonIgnore
-    Set getFeatureSet(String name) throws LappsIOException {
-        Object value = features[name]
-        if (value == null) {
-            return null;
-        }
+    Set getFeatureSet(String name) throws IllegalArgumentException {
+        Object value = get(name, { new HashSet() })
         if (value instanceof Set) {
             return (Set) value
         }
@@ -192,7 +183,17 @@ public class Annotation {
         if (value instanceof List) {
             return new HashSet((List)value)
         }
-        throw new LappsIOException("Feature value is not a Set object.")
+        throw new IllegalArgumentException("Feature value is not a Set object.")
+    }
+
+    protected Object get(String name, Closure factory) {
+        Object value = features[name]
+        if (value) {
+            return value
+        }
+        value = factory()
+        features[name] = value
+        return value
     }
 
     String toString() {

@@ -16,9 +16,9 @@ To use this package you need to add following dependency to the project's pom.xm
 
 ```xml
 <dependency>
-  <groupId>org.lappsgridl</groupId>
+  <groupId>org.lappsgrid</groupId>
   <artifactId>serialization</artifactId>
-  <version>2.0.1</version>
+  <version>2.3.0</version>
 </dependency>
 ```
 
