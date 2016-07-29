@@ -61,7 +61,8 @@ class Serializer {
 //            e.printStackTrace()
 //            // Ignored. We return null to indicate an error.
 //        }
-        return (T) mapper.reader(json, theClass)
+//        return result
+        return (T) mapper.readValue(json, theClass)
     }
 
     /**
