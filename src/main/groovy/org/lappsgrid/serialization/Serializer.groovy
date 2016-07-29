@@ -50,16 +50,18 @@ class Serializer {
      * Parses a JSON string and creates an instance of the specified class.
      */
     public static <T> T parse(String json, Class<T> theClass) {
-        T result = null
-        try {
-            result = (T) mapper.readValue(json, theClass)
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace()
-            // Ignored. We return null to indicate an error.
-        }
-        return result;
+        // Bug #? : Log the error if you must, but just dumping a stack trace
+        // simply confuses things.
+//        T result = null
+//        try {
+//            result = (T) mapper.readValue(json, theClass)
+//        }
+//        catch(Exception e)
+//        {
+//            e.printStackTrace()
+//            // Ignored. We return null to indicate an error.
+//        }
+        return (T) mapper.reader(json, theClass)
     }
 
     /**
