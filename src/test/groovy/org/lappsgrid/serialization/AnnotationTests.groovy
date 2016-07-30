@@ -1,7 +1,10 @@
 package org.lappsgrid.serialization
 
 import org.junit.*
+import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
+import org.lappsgrid.serialization.lif.View
 
 import static org.junit.Assert.*
 
@@ -47,8 +50,9 @@ class AnnotationTests {
 
     @Test
     void testAddSetFeature() {
+        // Round-trip the annotation through a JSON string.
         annotation.addFeature("set", [1,2,3] as HashSet)
-        String json = Serializer.toPrettyJson(annotation)
+        String json = Serializer.toJson(annotation)
         annotation = Serializer.parse(json, Annotation)
         assertTrue(annotation.features.set == [1,2,3])
     }
