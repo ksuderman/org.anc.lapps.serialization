@@ -193,11 +193,11 @@ public class Container {
     }
 
     List<View> findViewsThatContain(String type) {
-        views.findAll { it?.metadata?.contains[type] }
+        views.findAll { it?.metadata?.contains && it.metadata.contains[type] }
     }
 
     List<View> findViewsThatContainBy(String type, String producer) {
-        views.findAll { it?.metadata?.contains[type]?.producer == producer }
+        views.findAll { it?.metadata?.contains && it.metadata.contains[type]?.producer == producer }
     }
 
     void setMetadata(String name, Object value) {
