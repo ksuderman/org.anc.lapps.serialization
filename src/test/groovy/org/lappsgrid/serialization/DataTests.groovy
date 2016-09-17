@@ -73,6 +73,8 @@ class DataTests {
         assertNotNull after.discriminator
         assertNotNull after.payload
         assertNotNull after.parameters
+        assertNotNull after.parameters['p1']
+        assertNotNull after.parameters.p2
         assertEquals before.discriminator, after.discriminator
         assertEquals before.payload, after.payload
         assertEquals before.parameters.p1, after.parameters.p1

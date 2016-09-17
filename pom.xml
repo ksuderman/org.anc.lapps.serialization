@@ -23,7 +23,7 @@
 
     <groupId>org.lappsgrid</groupId>
     <artifactId>serialization</artifactId>
-    <version>2.3.0</version>
+    <version>2.3.1</version>
     <name>LAPPS Exchange Data Structures (LEDS)</name>
     <description>Data structures to serialize to/from JSON-LD.</description>
     <url>https://github.com/lapps/org.lappsgrid.serialization</url>
@@ -48,7 +48,7 @@
     </ciManagement>
     <properties>
         <!-- <anc.common.version>3.5.0</anc.common.version> -->
-        <lapps.discriminator.version>2.2.1</lapps.discriminator.version>
+        <lapps.discriminator.version>2.3.0</lapps.discriminator.version>
         <jackson.version>2.3.1</jackson.version>
         <groovy.version>2.4.3</groovy.version>
         <ivy.version>2.4.0</ivy.version>
@@ -139,6 +139,7 @@
             <groupId>org.lappsgrid</groupId>
             <artifactId>discriminator</artifactId>
             <version>${lapps.discriminator.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

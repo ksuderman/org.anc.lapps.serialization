@@ -21,6 +21,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
@@ -252,6 +253,52 @@ public class ContainerTest {
         assertEquals "w2", v2.annotations[1].id
     }
 
+    @Test
+    void testFindAllNoContains() {
+        Container container = new Container()
+        View view = container.newView()
+        List<View> views = container.findViewsThatContain(Discriminators.Uri.TOKEN)
+        assertNotNull views
+        assert views.isEmpty()
+    }
+
+    @Test
+    void testFindAll() {
+        Container container = new Container()
+        newView(container, Discriminators.Uri.TOKEN)
+        newView(container, Discriminators.Uri.SENTENCE)
+        newView(container, Discriminators.Uri.TOKEN)
+        newView(container, Discriminators.Uri.SENTENCE)
+        newView(container, Discriminators.Uri.NE)
+        newView(container, Discriminators.Uri.TOKEN)
+
+        List<View> views = container.findViewsThatContain(Discriminators.Uri.TOKEN)
+        assertEquals(3, views.size())
+        views = container.findViewsThatContain(Discriminators.Uri.SENTENCE)
+        assertEquals(2, views.size())
+        views = container.findViewsThatContain(Discriminators.Uri.NE)
+        assertEquals(1, views.size())
+        views = container.findViewsThatContain('foobar')
+        assertNotNull(views)
+        assertEquals(0, views.size())
+
+        views = container.findViewsThatContainBy(Discriminators.Uri.TOKEN, 'Test')
+        assertEquals(3, views.size())
+        views = container.findViewsThatContainBy(Discriminators.Uri.TOKEN, 'foobar')
+        assertEquals(0, views.size())
+        views = container.findViewsThatContainBy(Discriminators.Uri.SENTENCE, 'Test')
+        assertEquals(2, views.size())
+        views = container.findViewsThatContainBy(Discriminators.Uri.NE, 'Test')
+        assertEquals(1, views.size())
+    }
+
+
+    void newView(Container container, String type) {
+        View view = container.newView()
+        if (type) {
+            view.addContains(type, 'Test', 'test')
+        }
+    }
     @Ignore
     public void testRemoteContext() {
         Container container = new Container(false)
@@ -261,6 +308,7 @@ public class ContainerTest {
         URL url = new URL(container.context)
         assertNotNull(url.text)
     }
+
 
     private String getResource(String name) {
         return this.class.getResource(name).getText('UTF-8')
