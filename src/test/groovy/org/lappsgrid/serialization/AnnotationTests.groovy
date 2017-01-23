@@ -168,4 +168,11 @@ class AnnotationTests {
         set = annotation.getFeatureSet(FEATURE_NAME)
         assertEquals(2, set.size())
     }
+
+    @Test
+    void testAtTypeFromMapConstructor() {
+        Annotation a = new Annotation("a1", Discriminators.Uri.TOKEN, 0, 5)
+        Map map = Serializer.parse(Serializer.toJson(a), HashMap.class)
+        println map
+    }
 }

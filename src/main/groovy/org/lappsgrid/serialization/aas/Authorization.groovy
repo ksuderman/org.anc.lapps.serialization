@@ -19,6 +19,7 @@ package org.lappsgrid.serialization.aas
 /**
  * @author Keith Suderman
  * @deprecated
+ *
  */
 class Authorization {
     String username
