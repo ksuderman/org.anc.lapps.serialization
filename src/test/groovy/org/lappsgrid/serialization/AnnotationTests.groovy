@@ -168,4 +168,34 @@ class AnnotationTests {
         set = annotation.getFeatureSet(FEATURE_NAME)
         assertEquals(2, set.size())
     }
+
+    @Test
+    void testConstructors() {
+        Annotation a = new Annotation(Discriminators.Uri.TOKEN, 0, 1)
+        assertNull a.id
+        assertEquals Discriminators.Uri.TOKEN, a.atType
+        assertNull a.label
+        assertEquals 0, a.start
+        assertEquals 1, a.end
+        assertNotNull a.features
+        assertEquals 0, a.features.size()
+
+        a = new Annotation('a0', Discriminators.Uri.TOKEN, 0, 1)
+        assertEquals 'a0', a.id
+        assertEquals Discriminators.Uri.TOKEN, a.atType
+        assertNull a.label
+        assertEquals 0, a.start
+        assertEquals 1, a.end
+        assertNotNull a.features
+        assertEquals 0, a.features.size()
+
+        a = new Annotation('a0', Discriminators.Uri.TOKEN, "The Label", 0, 1)
+        assertEquals 'a0', a.id
+        assertEquals Discriminators.Uri.TOKEN, a.atType
+        assertEquals "The Label", a.label
+        assertEquals 0, a.start
+        assertEquals 1, a.end
+        assertNotNull a.features
+        assertEquals 0, a.features.size()
+    }
 }

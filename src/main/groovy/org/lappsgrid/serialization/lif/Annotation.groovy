@@ -66,14 +66,22 @@ public class Annotation {
 
     public Annotation() { }
 
-    public Annotation(String id, String label, long start, long end) {
-        this.id = id
-        this.label = label
+    public Annotation(String type, long start, long end) {
+        this.atType = type
         this.start = start
         this.end = end
     }
 
-    public Annotation(String label, long start, long end) {
+    public Annotation(String id, String type, long start, long end) {
+        this.id = id
+        this.atType = type
+        this.start = start
+        this.end = end
+    }
+
+    public Annotation(String id, String type, String label, long start, long end) {
+        this.id = id
+        this.atType = type
         this.label = label
         this.start = start
         this.end = end
