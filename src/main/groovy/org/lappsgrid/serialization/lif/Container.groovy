@@ -232,7 +232,9 @@ public class Container {
         if (map == null) {
             return
         }
-        this.context = Utils.deepCopy(map['@context'])
+        if (map['@context']) {
+            this.context = Utils.deepCopy(map['@context'])
+        }
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']

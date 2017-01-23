@@ -340,6 +340,38 @@ public class ContainerTest {
             view.addContains(type, 'Test', 'test')
         }
     }
+
+    //https://github.com/lapps/org.lappsgrid.serialization/issues/25
+    @Test
+    public void testNullContext() {
+        Map map = [
+                //'@context': 'the context',
+                metadata: [:],
+                text: ['@value':'hello', '@language': 'en'],
+                views: [
+                        [
+                                id:'v0',
+                                annotations: [
+                                        [id:'a0', '@type':Uri.TOKEN, start:0, end:5]
+                                ]
+                        ],
+                        [
+                                id:'v1',
+                                annotations: [
+                                        [id:'a0', '@type':Uri.TOKEN, start:0, end:5]
+                                ]
+                        ]
+                ]
+        ]
+        Container container = new Container(map)
+        assertEquals('hello', container.text)
+        assertEquals('en', container.language)
+        assertEquals(2, container.views.size())
+        assertEquals(1, container.views[0].annotations.size())
+        assertEquals(1, container.views[1].annotations.size())
+        assertEquals(null, container.context)
+    }
+
     @Ignore
     public void testRemoteContext() {
         Container container = new Container(false)
