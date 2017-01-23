@@ -21,7 +21,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-import org.lappsgrid.discriminator.Discriminators
+import static org.lappsgrid.discriminator.Discriminators.Uri
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
@@ -257,7 +257,7 @@ public class ContainerTest {
     void testFindAllNoContains() {
         Container container = new Container()
         View view = container.newView()
-        List<View> views = container.findViewsThatContain(Discriminators.Uri.TOKEN)
+        List<View> views = container.findViewsThatContain(Uri.TOKEN)
         assertNotNull views
         assert views.isEmpty()
     }
@@ -265,33 +265,74 @@ public class ContainerTest {
     @Test
     void testFindAll() {
         Container container = new Container()
-        newView(container, Discriminators.Uri.TOKEN)
-        newView(container, Discriminators.Uri.SENTENCE)
-        newView(container, Discriminators.Uri.TOKEN)
-        newView(container, Discriminators.Uri.SENTENCE)
-        newView(container, Discriminators.Uri.NE)
-        newView(container, Discriminators.Uri.TOKEN)
+        newView(container, Uri.TOKEN)
+        newView(container, Uri.SENTENCE)
+        newView(container, Uri.TOKEN)
+        newView(container, Uri.SENTENCE)
+        newView(container, Uri.NE)
+        newView(container, Uri.TOKEN)
 
-        List<View> views = container.findViewsThatContain(Discriminators.Uri.TOKEN)
+        List<View> views = container.findViewsThatContain(Uri.TOKEN)
         assertEquals(3, views.size())
-        views = container.findViewsThatContain(Discriminators.Uri.SENTENCE)
+        views = container.findViewsThatContain(Uri.SENTENCE)
         assertEquals(2, views.size())
-        views = container.findViewsThatContain(Discriminators.Uri.NE)
+        views = container.findViewsThatContain(Uri.NE)
         assertEquals(1, views.size())
         views = container.findViewsThatContain('foobar')
         assertNotNull(views)
         assertEquals(0, views.size())
 
-        views = container.findViewsThatContainBy(Discriminators.Uri.TOKEN, 'Test')
+        views = container.findViewsThatContainBy(Uri.TOKEN, 'Test')
         assertEquals(3, views.size())
-        views = container.findViewsThatContainBy(Discriminators.Uri.TOKEN, 'foobar')
+        views = container.findViewsThatContainBy(Uri.TOKEN, 'foobar')
         assertEquals(0, views.size())
-        views = container.findViewsThatContainBy(Discriminators.Uri.SENTENCE, 'Test')
+        views = container.findViewsThatContainBy(Uri.SENTENCE, 'Test')
         assertEquals(2, views.size())
-        views = container.findViewsThatContainBy(Discriminators.Uri.NE, 'Test')
+        views = container.findViewsThatContainBy(Uri.NE, 'Test')
         assertEquals(1, views.size())
     }
 
+    @Test
+    public void testNewViewString() {
+        Container container = new Container()
+        View v1 = container.newView("v1")
+        View v2 = container.newView("v2")
+
+        assertEquals 2, container.views.size()
+        assertEquals "v1", container.views[0].id
+        assertEquals "v2", container.views[1].id
+    }
+
+    // To expose https://github.com/lapps/org.lappsgrid.serialization/issues/23
+    // The Container(Map) constructor was not creating the list of Views correctly
+    // instead creating lists of Maps instead of List<View> and List<Annotation>.
+    @Test
+    public void testMapConstructor() {
+        Container expected = new Container()
+        expected.text = "hello world"
+        expected.language = "en"
+        View view = expected.newView("v0")
+        view.newAnnotation("a1", Uri.TOKEN, 0, 5)
+        view.newAnnotation("a2", Uri.TOKEN, 6, 11)
+        view = expected.newView("v1")
+        view.newAnnotation("s1", Uri.SENTENCE, 0, 11)
+        view = expected.newView("v2")
+        view.newAnnotation("ne1", Uri.PERSON, 6, 11)
+
+        String json = Serializer.toJson(expected)
+        Map map = Serializer.parse(json, HashMap.class)
+
+        Container container = new Container(map)
+        assertEquals expected.text, container.text
+        assertEquals expected.views.size(), container.views.size()
+
+        View expectedView = expected.views[0]
+        View containerView = container.views[0]
+        assertEquals expectedView.class, containerView.class
+        assertEquals expectedView.annotations.size(), containerView.annotations.size()
+        assertEquals expectedView.annotations[0].class, containerView.annotations[0].class
+
+    }
 
     void newView(Container container, String type) {
         View view = container.newView()
