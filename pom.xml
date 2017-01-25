@@ -49,7 +49,7 @@
     </ciManagement>
     <properties>
         <!-- <anc.common.version>3.5.0</anc.common.version> -->
-        <lapps.discriminator.version>2.3.1-SNAPSHOT</lapps.discriminator.version>
+        <lapps.discriminator.version>2.3.1</lapps.discriminator.version>
         <jackson.version>2.3.1</jackson.version>
         <groovy.version>2.4.3</groovy.version>
         <ivy.version>2.4.0</ivy.version>
@@ -100,33 +100,6 @@
                     <destinationDirectory>${project.reporting.outputDirectory}/groovydoc</destinationDirectory>
                 </configuration>
             </plugin>
-
-            <!--
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-groovydocs-to-site</id>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/site/groovydoc</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}/groovydoc</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
         </plugins>
     </build>
     <dependencies>
@@ -174,12 +147,5 @@
                 <version>2.9.1</version>
             </plugin>
         </plugins>
-    </reporting>    <!--
-    <distributionManagement>
-        <site>
-            <id>maven-site</id>
-            <url>scp://suderman@anc.org:22022/home/www/anc/projects/lapps/serialization</url>
-        </site>
-    </distributionManagement>
-    -->
+    </reporting>
 </project>
