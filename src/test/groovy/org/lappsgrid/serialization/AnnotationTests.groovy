@@ -198,4 +198,32 @@ class AnnotationTests {
         assertNotNull a.features
         assertEquals 0, a.features.size()
     }
+
+    @Test
+    void testAtTypeFromMapConstructor() {
+        String label = "The Label"
+        //Annotation a = new Annotation("a1", Discriminators.Uri.TOKEN, label, 0, 5)
+        //Map map = Serializer.parse(Serializer.toJson(a), HashMap.class)
+        Map map = [
+                id:'a1',
+                '@type': Discriminators.Uri.TOKEN,
+                label:label,
+                features: [
+                        word:'hello',
+                        pos: 'NN'
+                ],
+                start:0,
+                end:5
+        ]
+        Annotation a = new Annotation(map)
+        assertEquals 'a1', a.id
+        assertEquals Discriminators.Uri.TOKEN, a.atType
+        assertEquals label, a.label
+        assertEquals 0, a.start
+        assertEquals 5, a.end
+        assertNotNull a.features
+        assertEquals 2, a.features.size()
+        assertEquals 'hello', a.features.word
+        assertEquals 'NN', a.features.pos
+    }
 }
