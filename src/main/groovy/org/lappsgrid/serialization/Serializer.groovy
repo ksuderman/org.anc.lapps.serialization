@@ -48,9 +48,10 @@ class Serializer {
 
     /**
      * Parses a JSON string and creates an instance of the specified class.
+     * TODO (not before v3.0.0) Rethrow exceptions as LappsIoExceptions
      */
     public static <T> T parse(String json, Class<T> theClass) {
-        // Bug #? : Log the error if you must, but just dumping a stack trace
+        // Issue #18 : Log the error if you must, but just dumping a stack trace
         // simply confuses things.
 //        T result = null
 //        try {
@@ -67,6 +68,7 @@ class Serializer {
 
     /**
      * Returns a JSON representation of the object.
+     * TODO (not before v3.0.0) Rethrow exceptions as LappsIoExceptions
      */
     public static String toJson(Object object)
     {
@@ -79,7 +81,9 @@ class Serializer {
         }
     }
 
-    /** Returns a pretty-printed JSON representation of the object. */
+    /** Returns a pretty-printed JSON representation of the object.
+     * TODO (not before v3.0.0) Rethrow exceptions as LappsIoExceptions
+     */
     public static String toPrettyJson(Object object)
     {
         try {

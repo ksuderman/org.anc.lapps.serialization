@@ -175,6 +175,12 @@ public class Container {
         return this.content.value
     }
 
+    View newView(String id) {
+        View view = newView()
+        view.id = id
+        return view
+    }
+
     View newView() {
         View view = new View();
         views.add(view)
@@ -226,21 +232,23 @@ public class Container {
         if (map == null) {
             return
         }
-        this.context = Utils.deepCopy(map['@context'])
+        if (map['@context']) {
+            this.context = Utils.deepCopy(map['@context'])
+        }
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']
         this.metadata = Utils.deepCopy(map.metadata)
-        this.views = Utils.deepCopy(map.views)
+//        this.views = Utils.deepCopy(map.views)
 //        this.metadata = [:]
 //        map.metadata.each { name, value ->
 //            this.metadata[name] = value
 //        }
-//        this.views = []
-//        map.views.each { v ->
+        this.views = []
+        map.views.each { v ->
 //            View view = new View(v)
-//            this.views << view
-//        }
+            this.views << new View(v)
+        }
     }
 
 }
