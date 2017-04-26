@@ -1,0 +1,6 @@
+org.lappsgrid.serialization
+org.lappsgrid.serialization.aas
+org.lappsgrid.serialization.datasource
+org.lappsgrid.serialization.lif
+org.lappsgrid.serialization.response
+org.lappsgrid.serialization.service
