@@ -16,6 +16,10 @@
  */
 package org.lappsgrid.serialization.lif
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
  * metadata section.
@@ -44,20 +48,53 @@ class Contains {
      */
     String type;
 
+    @JsonIgnore
+    Map additionalMetadata = [:];
+
     public Contains() { }
 
     public Contains(Contains contains) {
         this.url = contains.url
         this.producer = contains.producer
         this.type = contains.type
+        this.additionalMetadata = contains.additionalMetadata
     }
 
     public Contains(Map map) {
         if (map == null) {
             return
         }
-        this.url = map['url']
-        this.producer = map['producer']
-        this.type = map['type']
+        this.url = map.remove('url')
+        this.producer = map.remove('producer')
+        this.type = map.remove('type')
+        this.additionalMetadata = map
     }
+
+    @JsonAnyGetter
+    public Map getAdditionalProperties() {
+        return additionalMetadata
+    }
+
+    @JsonAnySetter
+    public addMetadata(String key, String value) {
+        additionalMetadata[key] = value
+    }
+
+    public getMetadata(String key) {
+        if (key == "url") {
+            return this.url
+        }
+        else if (key == "producer") {
+            return this.producer
+        }
+        else if (key == "type") {
+            return this.type
+        }
+        else if (this.additionalMetadata.containsKey(key)) {
+            return this.additionalMetadata.get(key)
+        } else {
+            return null
+        }
+    }
+
 }
