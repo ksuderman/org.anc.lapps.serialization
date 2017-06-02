@@ -72,4 +72,20 @@ class ViewTests {
         assertNull(actual.start)
         assertNull(actual.end)
     }
+
+    @Test
+    void canAddContains() {
+        view.addContains("dummy", "test", "dummyType")
+        assertTrue(view.contains("dummy"))
+
+    }
+
+    @Test
+    void canAddArbitraryContainsMetadata() {
+        view.addContains("dummy", "test", "dummyType")
+        assertTrue(view.contains("dummy"))
+        view.getContains("dummy").addMetadata("arbitrariness", "true")
+        assertTrue(view.getContains("dummy").getMetadata("arbitrariness") == "true")
+
+    }
 }
