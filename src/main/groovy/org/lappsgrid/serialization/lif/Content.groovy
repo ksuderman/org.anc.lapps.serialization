@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * The Content object is a JSON "value object", that is, a JSON object with a {@literal @}value
  * field. The optional {@literal @}language field is also included.
  * <p>
- * <b>NOTE</b> Users will typically use this class directly. Instead users will use
+ * <b>NOTE</b> Users will typically not use this class directly. Instead users will use
  * the text and language getters and setters on the {@link Container} object.
  * <pre>
  *     <code>

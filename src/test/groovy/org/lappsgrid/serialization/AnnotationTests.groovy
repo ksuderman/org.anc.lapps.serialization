@@ -20,7 +20,7 @@ class AnnotationTests {
 
     @Before
     void setup() {
-        annotation = new Annotation("id", "label", 0, 1)
+        annotation = new Annotation("id", "type", 0, 1)
     }
 
     @After
@@ -38,7 +38,7 @@ class AnnotationTests {
         // This ensures a deep copy was performed of original.
         annotation.features = [:]
         assertEquals('id', copy.id)
-        assertEquals('label', copy.label)
+        assertEquals('type', copy.atType)
         assertEquals(0, copy.start)
         assertEquals(1, copy.end)
         assertEquals(4, copy.features.size())
