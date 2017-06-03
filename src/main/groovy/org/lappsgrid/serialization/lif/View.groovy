@@ -142,12 +142,14 @@ public class View {
      * @param producer The tool or program that generated the view.
      * @param type The annotation type. Currently this field is under-defined.
      */
-    void addContains(String name, String producer, String type) {
+    Contains addContains(String name, String producer, String type) {
 //        ValueObject containsType = new ValueObject(type:type, value:value)
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        metadata.contains[name] = new Contains(producer:producer, type:type)
+        Contains result = new Contains(producer:producer, type:type)
+        metadata.contains[name] = result
+        result
     }
 
     Annotation findById(String id) {

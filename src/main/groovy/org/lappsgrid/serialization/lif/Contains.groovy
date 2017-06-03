@@ -16,9 +16,8 @@
  */
 package org.lappsgrid.serialization.lif
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
@@ -30,71 +29,61 @@ import com.fasterxml.jackson.annotation.JsonIgnore
  *
  * @author Keith Suderman
  */
+@JsonPropertyOrder(['type', 'producer', 'url', 'tagSet', 'dependsOn'])
 class Contains {
-    /**
-     * The URL of the processor that produced the annotations.
-     */
-    String url;
+    @Delegate
+    HashMap data = new HashMap()
 
-    /**
-     * The name of the processors that produced the annotations.  For Java
-     * processors this will be the fully qualified class name of the processor
-     * including version information.
-     */
-    String producer;
-
-    /**
-     * The annotation type.
-     */
-    String type;
-
-    @JsonIgnore
-    Map additionalMetadata = [:];
-
-    public Contains() { }
-
-    public Contains(Contains contains) {
-        this.url = contains.url
-        this.producer = contains.producer
-        this.type = contains.type
-        this.additionalMetadata = contains.additionalMetadata
+    @JsonProperty
+    void setUrl(String url) {
+        data.url = url
     }
-
-    public Contains(Map map) {
-        if (map == null) {
-            return
-        }
-        this.url = map.remove('url')
-        this.producer = map.remove('producer')
-        this.type = map.remove('type')
-        this.additionalMetadata = map
+    String getUrl() {
+        return data.url
     }
-
-    @JsonAnyGetter
-    public Map getAdditionalProperties() {
-        return additionalMetadata
+    @JsonProperty
+    void setProducer(String producer) {
+        data.producer = producer
     }
-
-    @JsonAnySetter
-    public addMetadata(String key, String value) {
-        additionalMetadata[key] = value
+    String getProducer() {
+        return data.producer
     }
-
-    public getMetadata(String key) {
-        if (key == "url") {
-            return this.url
-        }
-        else if (key == "producer") {
-            return this.producer
-        }
-        else if (key == "type") {
-            return this.type
-        }
-        else if (this.additionalMetadata.containsKey(key)) {
-            return this.additionalMetadata.get(key)
-        } else {
-            return null
-        }
+    @JsonProperty
+    void setType(String type) {
+        data.type = type
     }
+    String getType() {
+        return data.type
 
+    }
+    @JsonProperty
+    void setTagSet(String tagSet) {
+        data.tagSet = tagSet
+    }
+    String getTagSet() {
+        return tagSet
+    }
+//    @JsonProperty
+//    void setDependsOn(List<DependsOn> dependsOn) {
+//        data.dependsOn = dependsOn
+//    }
+//    List<DependsOn> getDependsOn() {
+//        return data.dependsOn
+//    }
+//    void dependOn(String view, String type) {
+//        List<DependsOn> list = data.dependsOn
+//        if (list == null) {
+//            list = new ArrayList<DependsOn>()
+//            data.dependsOn = list
+//        }
+//        list << new DependsOn(view, [ type ])
+//    }
+//    void dependsOn(String view, List<String> types) {
+//        List<DependsOn> list = data.dependsOn
+//        if (list == null) {
+//            list = new ArrayList<DependsOn>()
+//            data.dependsOn = list
+//        }
+//        list << new DependsOn(view, types)
+//    }
 }
