@@ -1,5 +1,6 @@
 package org.lappsgrid.serialization
 
+import groovy.json.JsonBuilder
 import org.junit.*
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.View
@@ -16,6 +17,7 @@ class ViewTests {
     @Before
     void setup() {
         view = new View()
+        view.id = 'v0'
     }
 
     @After
@@ -87,5 +89,12 @@ class ViewTests {
         view.getContains("dummy").addMetadata("arbitrariness", "true")
         assertTrue(view.getContains("dummy").getMetadata("arbitrariness") == "true")
 
+    }
+
+    @Test
+    void containsArbitraryFields() {
+        view.addContains('T', 'T.producer', 'T.type')
+        view.metadata.contains['T'].addMetadata('dependsOn', 'v1')
+        println new JsonBuilder(view).toPrettyString()
     }
 }
