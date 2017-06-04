@@ -91,8 +91,8 @@ class ViewTests {
     void canAddArbitraryContainsMetadata() {
         view.addContains("dummy", "test", "dummyType")
         assertTrue(view.contains("dummy"))
-        view.getContains("dummy").addMetadata("arbitrariness", "true")
-        assertTrue(view.getContains("dummy").getMetadata("arbitrariness") == "true")
+        view.getContains("dummy").put("arbitrariness", "true")
+        assertTrue(view.getContains("dummy").get("arbitrariness") == "true")
     }
 
 }

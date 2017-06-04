@@ -22,6 +22,7 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import static org.lappsgrid.discriminator.Discriminators.Uri
+import org.lappsgrid.serialization.lif.Container.ContextType
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
@@ -370,6 +371,20 @@ public class ContainerTest {
         assertEquals(1, container.views[0].annotations.size())
         assertEquals(1, container.views[1].annotations.size())
         assertEquals(null, container.context)
+    }
+
+    @Test
+    void findViewById() {
+        Container container = new Container(ContextType.REMOTE)
+        View v0 = container.newView("v0")
+        View v1 = container.newView("v1")
+        View v2 = container.newView("v2")
+
+        assert container.views.size() == 3
+        assert v0.is(container.findViewById('v0'))
+        assert v1.is(container.findViewById('v1'))
+        assert v2.is(container.findViewById('v2'))
+        assert null == container.findViewById('abc')
     }
 
     @Ignore
