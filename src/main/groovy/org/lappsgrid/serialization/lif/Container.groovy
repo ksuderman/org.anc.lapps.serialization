@@ -198,6 +198,10 @@ public class Container {
         return null
     }
 
+    View findViewById(String id) {
+        views.find { it.id == id }
+    }
+
     List<View> findViewsThatContain(String type) {
         views.findAll { it?.metadata?.contains && it.metadata.contains[type] }
     }
