@@ -240,9 +240,9 @@ public class Container {
             this.context = Utils.deepCopy(map['@context'])
         }
         else {
-            this.content = Container.REMOTE_CONTEXT
+            this.context = Container.REMOTE_CONTEXT
         }
-        
+
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']

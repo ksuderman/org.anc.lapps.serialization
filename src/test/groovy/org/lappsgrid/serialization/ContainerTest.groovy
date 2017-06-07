@@ -370,7 +370,7 @@ public class ContainerTest {
         assertEquals(2, container.views.size())
         assertEquals(1, container.views[0].annotations.size())
         assertEquals(1, container.views[1].annotations.size())
-        assertEquals(null, container.context)
+        assertEquals(Container.REMOTE_CONTEXT, container.context)
     }
 
     @Test
