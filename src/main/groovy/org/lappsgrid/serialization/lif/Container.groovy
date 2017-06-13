@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.lappsgrid.serialization.LappsIOException
+import org.lappsgrid.serialization.LifException
 import org.lappsgrid.serialization.Utils
 
 /**
@@ -175,19 +176,27 @@ public class Container {
         return this.content.value
     }
 
-    View newView(String id) {
-        View view = newView()
+    View newView(String id) throws LifException {
+        View view = findViewById(id);
+        if (view != null) {
+            throw new LifException("ID is already in use.")
+        }
+        view = newView()
         view.id = id
         return view
     }
 
-    View newView() {
-        View view = new View();
-        views.add(view)
-        return view
+    View newView() throws LifException {
+        return newView(generateId())
     }
 
     void addView(View view) {
+        if (view.id == null) {
+            view.id = generateId();
+        }
+        else if (findViewById(view.id) != null) {
+            throw new LifException("Duplicated ID for view.")
+        }
         this.views << view
     }
 
@@ -230,6 +239,16 @@ public class Container {
             '@id': iri,
             '@type': '@id'
         ]
+    }
+
+    protected String generateId() {
+        int index = views.size() + 1
+        int offset = -1
+        String id = "v${index}"
+        while (findViewById(id) != null) {
+            id = "v${index}-${++offset}";
+        }
+        return id;
     }
 
     private void initFromMap(Map map) {
