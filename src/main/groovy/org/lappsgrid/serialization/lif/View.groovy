@@ -53,6 +53,11 @@ public class View {
         annotations = []
     }
 
+    public View(String id) {
+        this()
+        this.id = id
+    }
+
     public View(Map map) {
         if (map == null) {
             return
