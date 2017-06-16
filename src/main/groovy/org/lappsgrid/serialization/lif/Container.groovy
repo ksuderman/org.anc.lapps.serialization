@@ -181,8 +181,9 @@ public class Container {
         if (view != null) {
             throw new LifException("ID is already in use.")
         }
-        view = newView()
+        view = new View()
         view.id = id
+        views << view
         return view
     }
 
@@ -195,7 +196,7 @@ public class Container {
             view.id = generateId();
         }
         else if (findViewById(view.id) != null) {
-            throw new LifException("Duplicated ID for view.")
+            throw new LifException("Duplicate ID for view.")
         }
         this.views << view
     }

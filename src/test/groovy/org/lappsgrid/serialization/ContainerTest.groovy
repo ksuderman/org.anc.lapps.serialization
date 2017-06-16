@@ -387,9 +387,73 @@ public class ContainerTest {
         assert null == container.findViewById('abc')
     }
 
-    @Ignore
+//    @Test
+
+    @Test
+    void testDefaultViewId() {
+        Container container = new Container()
+        View v1 = container.newView()
+        View v2 = container.newView()
+
+        assert "v1" == v1.id
+        assert "v2" == v2.id
+    }
+
+    @Test
+    void testViewIdCollision() {
+        Container container = new Container()
+        View v1 = container.newView("v2")
+        View v2 = container.newView()
+        assert 2 == container.views.size()
+        assert "v2-0" == v2.id
+
+        View v = container.findViewById("v2-0")
+        assert v2.is(v)
+    }
+
+    @Test
+    void testMultipleViewIdCollisions() {
+        Container container = new Container()
+        container.newView("v4")
+        container.newView("v4-0")
+        container.newView("v4-1")
+        View v = container.newView()
+        assert "v4-2" == v.id
+        assert 4 == container.views.size()
+    }
+
+    @Test(expected = LifException)
+    void testAddingViewWithDuplicateId() {
+        Container container = new Container()
+        container.newView("v1")
+        View v = new View("v1")
+        container.addView(v)
+    }
+
+    @Test
+    void testAddViewWithoutId() {
+        Container container = new Container()
+        container.newView("v1")
+        container.newView("v2")
+        View expected = new View()
+        container.addView(expected)
+        assert 3 == container.views.size()
+        assert "v3" == expected.id
+        View actual = container.findViewById("v3")
+        assert actual.is(expected)
+    }
+
+    // A LifException should be throw if duplicate ID values are used.
+    @Test(expected = LifException)
+    void testDuplicateViewId() {
+        Container container = new Container()
+        container.newView("v1")
+        container.newView("v1")
+    }
+
+    @Test
     public void testRemoteContext() {
-        Container container = new Container(false)
+        Container container = new Container()
         assertTrue("Context is not a string!", container.context instanceof String)
         assertTrue(container.context == "http://vocab.lappsgrid.org/context-1.0.0.jsonld")
         // Make sure the URL can be dereferenced.
