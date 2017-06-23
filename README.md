@@ -6,6 +6,8 @@ LAPPS Exchange Data Structures (LEDS).
 [![Master build status](http://grid.anc.org:9080/travis/svg/lapps/org.lappsgrid.serialization?branch=master)](https://travis-ci.org/lapps/org.lappsgrid.serialization)
 [![Develop build status](http://grid.anc.org:9080/travis/svg/lapps/org.lappsgrid.serialization?branch=develop)](https://travis-ci.org/lapps/org.lappsgrid.serialization)
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.lappsgrid/serialization/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.lappsgrid/serialization)
+
 The LAPPS Exchange Data Structures are a small set of Java classes (Groovy classes 
 actually) that provide the data model for the JSON-LD data exchanged by services on the
 LAPPS grid. 
@@ -18,7 +20,7 @@ To use this package you need to add following dependency to the project's pom.xm
 <dependency>
   <groupId>org.lappsgrid</groupId>
   <artifactId>serialization</artifactId>
-  <version>2.3.0</version>
+  <version>2.4.0</version>
 </dependency>
 ```
 
