@@ -66,6 +66,10 @@ class Serializer {
         return (T) mapper.readValue(json, theClass)
     }
 
+    public static Data<Object> parse(String json) {
+        return (Data) mapper.readValue(json, Data)
+    }
+
     /**
      * Returns a JSON representation of the object.
      * TODO (not before v3.0.0) Rethrow exceptions as LappsIoExceptions
