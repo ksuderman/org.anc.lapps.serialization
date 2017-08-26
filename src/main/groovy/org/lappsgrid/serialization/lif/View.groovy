@@ -63,10 +63,11 @@ public class View {
             return
         }
         this.id = map['id']
-        metadata = [:]
-        map.metadata.each { name, value ->
-            metadata[name] = value
-        }
+        this.metadata = Utils.deepCopy(map.metadata)
+//        metadata = [:]
+//        map.metadata.each { name, value ->
+//            metadata[name] = value
+//        }
         //annotations = map.annotations
         annotations = []
         map.annotations.each { a ->
