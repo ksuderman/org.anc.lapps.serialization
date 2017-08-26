@@ -352,12 +352,14 @@ public class ContainerTest {
                 views: [
                         [
                                 id:'v0',
+                                metadata: [:],
                                 annotations: [
                                         [id:'a0', '@type':Uri.TOKEN, start:0, end:5]
                                 ]
                         ],
                         [
                                 id:'v1',
+                                metadata: [:],
                                 annotations: [
                                         [id:'a0', '@type':Uri.TOKEN, start:0, end:5]
                                 ]
