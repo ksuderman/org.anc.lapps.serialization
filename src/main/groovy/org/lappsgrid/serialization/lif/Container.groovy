@@ -221,10 +221,16 @@ public class Container {
     }
 
     void setMetadata(String name, Object value) {
+        if (this.metadata == null) {
+            this.metadata = [:]
+        }
         this.metadata[name] = value
     }
 
     Object getMetadata(String name) {
+        if (this.metadata == null) {
+            return null
+        }
         return this.metadata[name]
     }
 
