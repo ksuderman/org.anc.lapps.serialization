@@ -108,6 +108,9 @@ public class View {
      * false otherwise.
 \    */
     boolean contains(String name) {
+        if (!metadata.contains) {
+            return false
+        }
         return metadata.contains[name] != null
     }
 
