@@ -57,19 +57,24 @@ public class Annotation {
     Long end = null
 
     /** Features of the annotation. Featues are assumed to be String name/value pairs. */
-    Map features = [:]
+    Map features // = [:]
 
     /** Features assigned by the framework to the annotation. E.g. a confidence
      * score, the processor that generated the annotation etc.
      */
-    Map metadata = [:]
+    Map metadata //= [:]
 
-    public Annotation() { }
+    public Annotation() {
+        this.features = [:]
+        this.metadata = [:]
+    }
 
     public Annotation(String type, long start, long end) {
         this.atType = type
         this.start = start
         this.end = end
+        this.features = [:]
+        this.metadata = [:]
     }
 
     public Annotation(String id, String type, long start, long end) {
@@ -77,6 +82,8 @@ public class Annotation {
         this.atType = type
         this.start = start
         this.end = end
+        this.features = [:]
+        this.metadata = [:]
     }
 
     public Annotation(String id, String type, String label, long start, long end) {
@@ -85,6 +92,8 @@ public class Annotation {
         this.label = label
         this.start = start
         this.end = end
+        this.features = [:]
+        this.metadata = [:]
     }
 
     public Annotation(Annotation annotation) {
@@ -120,14 +129,24 @@ public class Annotation {
                     this.id = value
                     break
                 case 'features':
-                    this.features << value
+                    if (value) {
+                        this.features = Utils.deepCopy(value)
+                    }
+                    else {
+                        this.features = [:]
+                    }
                     break
                 case 'metadata':
-                    this.metadata << value
+                    if (value) {
+                        this.metadata = Utils.deepCopy(value)
+                    }
+                    else {
+                        this.metadata = [:]
+                    }
                     break
                 default:
                     //println "${key} = ${value}"
-                    features[key] = value
+                    features[key] = Utils.deepCopy(value)
                     break
             }
         }
