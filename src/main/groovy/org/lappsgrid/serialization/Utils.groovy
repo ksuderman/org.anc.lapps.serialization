@@ -9,39 +9,43 @@ import org.lappsgrid.serialization.lif.View
  */
 class Utils {
     static String deepCopy(String string) {
-//        println "Copying string $string"
         return string
     }
 
     static Number deepCopy(Number number) {
-//        println "Copying number $number"
         return number
     }
 
     static Boolean deepCopy(Boolean bool) {
-//        println "Copying $bool"
         return bool
     }
 
     static List deepCopy(List list) {
-//        println "Copying list"
         List result = []
-        list.each { result.add(deepCopy(it)) }
+        list.each {
+            if (it != null) {
+                result.add(deepCopy(it))
+            }
+        }
         return result
     }
 
     static Set deepCopy(Set set) {
-//        println "Copying set"
         Set result = new HashSet()
-        set.each  { result.add(deepCopy(it)) }
+        set.each  {
+            if (it != null) {
+                result.add(deepCopy(it))
+            }
+        }
         return result
     }
 
     static Map deepCopy(Map map) {
         Map result = [:]
         map.each { key,value ->
-//            println "Copying $key"
-            result[key] = deepCopy(value)
+            if (value) {
+                result[key] = deepCopy(value)
+            }
         }
         return result
     }
