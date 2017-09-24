@@ -103,8 +103,18 @@ public class Annotation {
         this.end = annotation.end
         this.atType = annotation.atType
         this.type = annotation.type
-        this.features = Utils.deepCopy(annotation.features)
-        this.metadata = Utils.deepCopy(annotation.metadata)
+        if (annotation.features) {
+            this.features = Utils.deepCopy(annotation.features)
+        }
+        else {
+            this.features = [:]
+        }
+        if (annotation.metadata) {
+            this.metadata = Utils.deepCopy(annotation.metadata)
+        }
+        else {
+            this.metadata = [:]
+        }
     }
 
     public Annotation(Map map) {
@@ -224,6 +234,14 @@ public class Annotation {
     }
 
     String toString() {
+        if (label) {
+            return "${label} (${start}-${end}) ${features}"
+        }
+        int index = atType.lastIndexOf('/');
+        if (index < 0) {
+            index = 0;
+        }
+        String name = atType.substring(0);
         return "${label} (${start}-${end}) ${features}"
     }
 
