@@ -31,7 +31,7 @@ To use this package you need to add following dependency to the project's pom.xm
 The `org.lappsgrid.serialization.Serializer` class provides static methods for converting
 between the LEDS objects and their JSON representations.
 
-```groovy
+```
 Container container = new Container()
 ...
 String json = Serializer.toJson(container)
@@ -80,14 +80,14 @@ class Container {
 
 Container objects define a @context in the JSON document itself.  To refer to the remote @context at http://vocab.lappsgrid.org/context-1.0.0.jsonld create a Container and pass _false_ as the only parameter.
 
-```java
+```
 Container containerWithLocalContext = new Container();
 Container containerWithRemoteContext = new Container(false);
 ```
 
 When working with a local @context the entries in the @context are stored in a hash map that can be manipulated at runtime:
 
-```java
+```
 Container container = new Container(); // Creates a container with a local @context object.
 Map context = container.getContext();
 context.put("myToken", "http://example.com/token");
@@ -118,7 +118,7 @@ To simplify the process of creating the _contains_ map the View class
 provides a _addContains(String label, String producer, String type)_ method. For
  example the above JSON can be generated with:
 
-```java
+```
 Container container = new Container(false);
 View view = new View()
 view.addContains("Token", "http://service.that.produces.the.tokens", "tokenization:custom");
@@ -129,7 +129,7 @@ container.getViews().add(view)
 
 ### Java
 
-```java
+```
 Annotation a = new Annotation();
 a.setType("token");
 a.setStart(0);
@@ -153,7 +153,7 @@ Container container = Serializer.parse(json, Container.class)
 ```
 
 ### Groovy
-```groovy
+```
 Annotation a = new Annotation(type:'token', start:0, end:5)
 a.features['pos'] = 'UH'
 

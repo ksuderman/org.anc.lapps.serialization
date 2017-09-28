@@ -53,15 +53,21 @@ public class View {
         annotations = []
     }
 
+    public View(String id) {
+        this()
+        this.id = id
+    }
+
     public View(Map map) {
         if (map == null) {
             return
         }
         this.id = map['id']
-        metadata = [:]
-        map.metadata.each { name, value ->
-            metadata[name] = value
-        }
+        this.metadata = Utils.deepCopy(map.metadata)
+//        metadata = [:]
+//        map.metadata.each { name, value ->
+//            metadata[name] = value
+//        }
         //annotations = map.annotations
         annotations = []
         map.annotations.each { a ->
@@ -102,6 +108,9 @@ public class View {
      * false otherwise.
 \    */
     boolean contains(String name) {
+        if (!metadata.contains) {
+            return false
+        }
         return metadata.contains[name] != null
     }
 
@@ -142,12 +151,14 @@ public class View {
      * @param producer The tool or program that generated the view.
      * @param type The annotation type. Currently this field is under-defined.
      */
-    void addContains(String name, String producer, String type) {
+    Contains addContains(String name, String producer, String type) {
 //        ValueObject containsType = new ValueObject(type:type, value:value)
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        metadata.contains[name] = new Contains(producer:producer, type:type)
+        Contains result = new Contains(producer:producer, type:type)
+        metadata.contains[name] = result
+        result
     }
 
     Annotation findById(String id) {

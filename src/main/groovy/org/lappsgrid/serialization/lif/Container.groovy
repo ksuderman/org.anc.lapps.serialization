@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.lappsgrid.serialization.LappsIOException
+import org.lappsgrid.serialization.LifException
 import org.lappsgrid.serialization.Utils
 
 /**
@@ -175,19 +176,28 @@ public class Container {
         return this.content.value
     }
 
-    View newView(String id) {
-        View view = newView()
+    View newView(String id) throws LifException {
+        View view = findViewById(id);
+        if (view != null) {
+            throw new LifException("ID is already in use.")
+        }
+        view = new View()
         view.id = id
+        views << view
         return view
     }
 
-    View newView() {
-        View view = new View();
-        views.add(view)
-        return view
+    View newView() throws LifException {
+        return newView(generateId())
     }
 
     void addView(View view) {
+        if (view.id == null) {
+            view.id = generateId();
+        }
+        else if (findViewById(view.id) != null) {
+            throw new LifException("Duplicate ID for view.")
+        }
         this.views << view
     }
 
@@ -196,6 +206,10 @@ public class Container {
             return views[index]
         }
         return null
+    }
+
+    View findViewById(String id) {
+        views.find { it.id == id }
     }
 
     List<View> findViewsThatContain(String type) {
@@ -207,10 +221,16 @@ public class Container {
     }
 
     void setMetadata(String name, Object value) {
+        if (this.metadata == null) {
+            this.metadata = [:]
+        }
         this.metadata[name] = value
     }
 
     Object getMetadata(String name) {
+        if (this.metadata == null) {
+            return null
+        }
         return this.metadata[name]
     }
 
@@ -228,6 +248,16 @@ public class Container {
         ]
     }
 
+    protected String generateId() {
+        int index = views.size() + 1
+        int offset = -1
+        String id = "v${index}"
+        while (findViewById(id) != null) {
+            id = "v${index}-${++offset}";
+        }
+        return id;
+    }
+
     private void initFromMap(Map map) {
         if (map == null) {
             return
@@ -235,6 +265,10 @@ public class Container {
         if (map['@context']) {
             this.context = Utils.deepCopy(map['@context'])
         }
+        else {
+            this.context = Container.REMOTE_CONTEXT
+        }
+
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']

@@ -28,7 +28,7 @@ import org.lappsgrid.serialization.Utils
  *
  * @author Keith Suderman
  */
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonPropertyOrder(['id', 'start', 'end', '@type', 'type', 'label', 'features', 'metadata'])
 public class Annotation {
     /** A unique ID assigned to this annotation.
@@ -40,7 +40,6 @@ public class Annotation {
     String id
 
     /** The label used for the annotation, e.g. tok, s, etc. */
-//    @JsonProperty('@type')
     String label
 
     /** The {@literal @}type value (if any) for the JSON element. */
@@ -56,20 +55,25 @@ public class Annotation {
     /** The end offset of the annotation. */
     Long end = null
 
-    /** Features of the annotation. Featues are assumed to be String name/value pairs. */
-    Map features = [:]
+    /** Features of the annotation. Features are assumed to be String name/value pairs. */
+    Map features
 
     /** Features assigned by the framework to the annotation. E.g. a confidence
      * score, the processor that generated the annotation etc.
      */
-    Map metadata = [:]
+    Map metadata
 
-    public Annotation() { }
+    public Annotation() {
+        this.features = [:]
+        this.metadata = [:]
+    }
 
     public Annotation(String type, long start, long end) {
         this.atType = type
         this.start = start
         this.end = end
+        this.features = [:]
+        this.metadata = [:]
     }
 
     public Annotation(String id, String type, long start, long end) {
@@ -77,6 +81,8 @@ public class Annotation {
         this.atType = type
         this.start = start
         this.end = end
+        this.features = [:]
+        this.metadata = [:]
     }
 
     public Annotation(String id, String type, String label, long start, long end) {
@@ -85,6 +91,8 @@ public class Annotation {
         this.label = label
         this.start = start
         this.end = end
+        this.features = [:]
+        this.metadata = [:]
     }
 
     public Annotation(Annotation annotation) {
@@ -94,8 +102,18 @@ public class Annotation {
         this.end = annotation.end
         this.atType = annotation.atType
         this.type = annotation.type
-        this.features = Utils.deepCopy(annotation.features)
-        this.metadata = Utils.deepCopy(annotation.metadata)
+        if (annotation.features) {
+            this.features = Utils.deepCopy(annotation.features)
+        }
+        else {
+            this.features = [:]
+        }
+        if (annotation.metadata) {
+            this.metadata = Utils.deepCopy(annotation.metadata)
+        }
+        else {
+            this.metadata = [:]
+        }
     }
 
     public Annotation(Map map) {
@@ -120,14 +138,23 @@ public class Annotation {
                     this.id = value
                     break
                 case 'features':
-                    this.features << value
+                    if (value) {
+                        this.features = Utils.deepCopy(value)
+                    }
+                    else {
+                        this.features = [:]
+                    }
                     break
                 case 'metadata':
-                    this.metadata << value
+                    if (value) {
+                        this.metadata = Utils.deepCopy(value)
+                    }
+                    else {
+                        this.metadata = [:]
+                    }
                     break
                 default:
-                    //println "${key} = ${value}"
-                    features[key] = value
+                    features[key] = Utils.deepCopy(value)
                     break
             }
         }
@@ -135,6 +162,16 @@ public class Annotation {
 
     @JsonIgnore
     void addFeature(String name, String value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, Boolean value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, Number value) {
         features[name] = value
     }
 
@@ -205,7 +242,15 @@ public class Annotation {
     }
 
     String toString() {
-        return "${label} (${start}-${end}) ${features}"
+        if (label) {
+            return "${label} (${start}-${end}) ${features}"
+        }
+        int index = atType.lastIndexOf('/');
+        if (index < 0) {
+            index = 0;
+        }
+        String name = atType.substring(0);
+        return "${name} (${start}-${end}) ${features}"
     }
 
 }

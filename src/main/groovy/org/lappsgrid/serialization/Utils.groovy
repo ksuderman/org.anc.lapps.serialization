@@ -16,22 +16,36 @@ class Utils {
         return number
     }
 
+    static Boolean deepCopy(Boolean bool) {
+        return bool
+    }
+
     static List deepCopy(List list) {
         List result = []
-        list.each { result.add(deepCopy(it)) }
+        list.each {
+            if (it != null) {
+                result.add(deepCopy(it))
+            }
+        }
         return result
     }
 
     static Set deepCopy(Set set) {
         Set result = new HashSet()
-        set.each  { result.add(deepCopy(it)) }
+        set.each  {
+            if (it != null) {
+                result.add(deepCopy(it))
+            }
+        }
         return result
     }
 
     static Map deepCopy(Map map) {
         Map result = [:]
         map.each { key,value ->
-            result[key] = deepCopy(value)
+            if (value) {
+                result[key] = deepCopy(value)
+            }
         }
         return result
     }

@@ -16,6 +16,9 @@
  */
 package org.lappsgrid.serialization.lif
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
+
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
  * metadata section.
@@ -26,38 +29,61 @@ package org.lappsgrid.serialization.lif
  *
  * @author Keith Suderman
  */
+@JsonPropertyOrder(['type', 'producer', 'url', 'tagSet', 'dependsOn'])
 class Contains {
-    /**
-     * The URL of the processor that produced the annotations.
-     */
-    String url;
+    @Delegate
+    HashMap data = new HashMap()
 
-    /**
-     * The name of the processors that produced the annotations.  For Java
-     * processors this will be the fully qualified class name of the processor
-     * including version information.
-     */
-    String producer;
-
-    /**
-     * The annotation type.
-     */
-    String type;
-
-    public Contains() { }
-
-    public Contains(Contains contains) {
-        this.url = contains.url
-        this.producer = contains.producer
-        this.type = contains.type
+    @JsonProperty
+    void setUrl(String url) {
+        data.url = url
     }
-
-    public Contains(Map map) {
-        if (map == null) {
-            return
-        }
-        this.url = map['url']
-        this.producer = map['producer']
-        this.type = map['type']
+    String getUrl() {
+        return data.url
     }
+    @JsonProperty
+    void setProducer(String producer) {
+        data.producer = producer
+    }
+    String getProducer() {
+        return data.producer
+    }
+    @JsonProperty
+    void setType(String type) {
+        data.type = type
+    }
+    String getType() {
+        return data.type
+
+    }
+    @JsonProperty
+    void setTagSet(String tagSet) {
+        data.tagSet = tagSet
+    }
+    String getTagSet() {
+        return tagSet
+    }
+//    @JsonProperty
+//    void setDependsOn(List<DependsOn> dependsOn) {
+//        data.dependsOn = dependsOn
+//    }
+//    List<DependsOn> getDependsOn() {
+//        return data.dependsOn
+//    }
+//    void dependOn(String view, String type) {
+//        List<DependsOn> list = data.dependsOn
+//        if (list == null) {
+//            list = new ArrayList<DependsOn>()
+//            data.dependsOn = list
+//        }
+//        list << new DependsOn(view, [ type ])
+//    }
+//    void dependsOn(String view, List<String> types) {
+//        List<DependsOn> list = data.dependsOn
+//        if (list == null) {
+//            list = new ArrayList<DependsOn>()
+//            data.dependsOn = list
+//        }
+//        list << new DependsOn(view, types)
+//    }
 }

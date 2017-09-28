@@ -51,19 +51,11 @@ class Serializer {
      * TODO (not before v3.0.0) Rethrow exceptions as LappsIoExceptions
      */
     public static <T> T parse(String json, Class<T> theClass) {
-        // Issue #18 : Log the error if you must, but just dumping a stack trace
-        // simply confuses things.
-//        T result = null
-//        try {
-//            result = (T) mapper.readValue(json, theClass)
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace()
-//            // Ignored. We return null to indicate an error.
-//        }
-//        return result
         return (T) mapper.readValue(json, theClass)
+    }
+
+    public static Data<Object> parse(String json) {
+        return (Data) mapper.readValue(json, Data)
     }
 
     /**

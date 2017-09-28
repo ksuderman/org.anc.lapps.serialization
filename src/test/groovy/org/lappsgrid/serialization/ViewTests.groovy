@@ -1,7 +1,9 @@
 package org.lappsgrid.serialization
 
+import groovy.json.JsonBuilder
 import org.junit.*
 import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
 
 import static org.junit.Assert.*
@@ -16,6 +18,7 @@ class ViewTests {
     @Before
     void setup() {
         view = new View()
+        view.id = 'v0'
     }
 
     @After
@@ -72,4 +75,24 @@ class ViewTests {
         assertNull(actual.start)
         assertNull(actual.end)
     }
+
+    @Test
+    void canAddContains() {
+        view.addContains("dummy", "test", "dummyType")
+        assertTrue(view.contains("dummy"))
+        Contains contains = view.getContains("dummy")
+        assert(contains != null)
+        assertEquals(2, contains.size())
+        assertEquals("test", contains.producer)
+        assertEquals("dummyType", contains.type)
+    }
+
+    @Test
+    void canAddArbitraryContainsMetadata() {
+        view.addContains("dummy", "test", "dummyType")
+        assertTrue(view.contains("dummy"))
+        view.getContains("dummy").put("arbitrariness", "true")
+        assertTrue(view.getContains("dummy").get("arbitrariness") == "true")
+    }
+
 }

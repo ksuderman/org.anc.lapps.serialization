@@ -22,6 +22,7 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import static org.lappsgrid.discriminator.Discriminators.Uri
+import org.lappsgrid.serialization.lif.Container.ContextType
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
@@ -351,12 +352,14 @@ public class ContainerTest {
                 views: [
                         [
                                 id:'v0',
+                                metadata: [:],
                                 annotations: [
                                         [id:'a0', '@type':Uri.TOKEN, start:0, end:5]
                                 ]
                         ],
                         [
                                 id:'v1',
+                                metadata: [:],
                                 annotations: [
                                         [id:'a0', '@type':Uri.TOKEN, start:0, end:5]
                                 ]
@@ -369,12 +372,90 @@ public class ContainerTest {
         assertEquals(2, container.views.size())
         assertEquals(1, container.views[0].annotations.size())
         assertEquals(1, container.views[1].annotations.size())
-        assertEquals(null, container.context)
+        assertEquals(Container.REMOTE_CONTEXT, container.context)
     }
 
-    @Ignore
+    @Test
+    void findViewById() {
+        Container container = new Container(ContextType.REMOTE)
+        View v0 = container.newView("v0")
+        View v1 = container.newView("v1")
+        View v2 = container.newView("v2")
+
+        assert container.views.size() == 3
+        assert v0.is(container.findViewById('v0'))
+        assert v1.is(container.findViewById('v1'))
+        assert v2.is(container.findViewById('v2'))
+        assert null == container.findViewById('abc')
+    }
+
+//    @Test
+
+    @Test
+    void testDefaultViewId() {
+        Container container = new Container()
+        View v1 = container.newView()
+        View v2 = container.newView()
+
+        assert "v1" == v1.id
+        assert "v2" == v2.id
+    }
+
+    @Test
+    void testViewIdCollision() {
+        Container container = new Container()
+        View v1 = container.newView("v2")
+        View v2 = container.newView()
+        assert 2 == container.views.size()
+        assert "v2-0" == v2.id
+
+        View v = container.findViewById("v2-0")
+        assert v2.is(v)
+    }
+
+    @Test
+    void testMultipleViewIdCollisions() {
+        Container container = new Container()
+        container.newView("v4")
+        container.newView("v4-0")
+        container.newView("v4-1")
+        View v = container.newView()
+        assert "v4-2" == v.id
+        assert 4 == container.views.size()
+    }
+
+    @Test(expected = LifException)
+    void testAddingViewWithDuplicateId() {
+        Container container = new Container()
+        container.newView("v1")
+        View v = new View("v1")
+        container.addView(v)
+    }
+
+    @Test
+    void testAddViewWithoutId() {
+        Container container = new Container()
+        container.newView("v1")
+        container.newView("v2")
+        View expected = new View()
+        container.addView(expected)
+        assert 3 == container.views.size()
+        assert "v3" == expected.id
+        View actual = container.findViewById("v3")
+        assert actual.is(expected)
+    }
+
+    // A LifException should be throw if duplicate ID values are used.
+    @Test(expected = LifException)
+    void testDuplicateViewId() {
+        Container container = new Container()
+        container.newView("v1")
+        container.newView("v1")
+    }
+
+    @Test
     public void testRemoteContext() {
-        Container container = new Container(false)
+        Container container = new Container()
         assertTrue("Context is not a string!", container.context instanceof String)
         assertTrue(container.context == "http://vocab.lappsgrid.org/context-1.0.0.jsonld")
         // Make sure the URL can be dereferenced.
