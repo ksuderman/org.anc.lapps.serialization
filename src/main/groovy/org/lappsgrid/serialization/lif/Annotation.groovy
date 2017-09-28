@@ -28,7 +28,7 @@ import org.lappsgrid.serialization.Utils
  *
  * @author Keith Suderman
  */
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonPropertyOrder(['id', 'start', 'end', '@type', 'type', 'label', 'features', 'metadata'])
 public class Annotation {
     /** A unique ID assigned to this annotation.
@@ -40,7 +40,6 @@ public class Annotation {
     String id
 
     /** The label used for the annotation, e.g. tok, s, etc. */
-//    @JsonProperty('@type')
     String label
 
     /** The {@literal @}type value (if any) for the JSON element. */
@@ -56,13 +55,13 @@ public class Annotation {
     /** The end offset of the annotation. */
     Long end = null
 
-    /** Features of the annotation. Featues are assumed to be String name/value pairs. */
-    Map features // = [:]
+    /** Features of the annotation. Features are assumed to be String name/value pairs. */
+    Map features
 
     /** Features assigned by the framework to the annotation. E.g. a confidence
      * score, the processor that generated the annotation etc.
      */
-    Map metadata //= [:]
+    Map metadata
 
     public Annotation() {
         this.features = [:]
@@ -155,7 +154,6 @@ public class Annotation {
                     }
                     break
                 default:
-                    //println "${key} = ${value}"
                     features[key] = Utils.deepCopy(value)
                     break
             }
@@ -164,6 +162,16 @@ public class Annotation {
 
     @JsonIgnore
     void addFeature(String name, String value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, Boolean value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    void addFeature(String name, Number value) {
         features[name] = value
     }
 
@@ -242,7 +250,7 @@ public class Annotation {
             index = 0;
         }
         String name = atType.substring(0);
-        return "${label} (${start}-${end}) ${features}"
+        return "${name} (${start}-${end}) ${features}"
     }
 
 }
