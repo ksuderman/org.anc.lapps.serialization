@@ -15,7 +15,7 @@ ant.groovydoc(
     windowtitle  : "$title",
     doctitle     : "$title",
     header       : "$title",
-    footer       : "Copyright &copy; 2016 The Language Application Grid",
+    footer       : "Copyright &copy; 2017 The Language Application Grid",
     private      : "false") {
         link(packages:"java.,org.xml.,javax.,org.xml.",href:"http://docs.oracle.com/javase/8/docs/api/")
         link(packages:"groovy.,org.codehaus.groovy.",  href:"http://docs.groovy-lang.org/latest/html/api/")
