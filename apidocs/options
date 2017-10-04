@@ -1,0 +1,24 @@
+-classpath
+'/Users/suderman/.m2/repository/org/lappsgrid/api/2.0.1/api-2.0.1.jar:/Users/suderman/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.3.0/jackson-annotations-2.3.0.jar:/Users/suderman/.m2/repository/org/lappsgrid/discriminator/2.3.2/discriminator-2.3.2.jar:/Users/suderman/.m2/repository/net/servicegrid/jp.go.nict.langrid.commons/1.0.5/jp.go.nict.langrid.commons-1.0.5.jar:/Users/suderman/.m2/repository/org/codehaus/groovy/groovy-all/2.4.3/groovy-all-2.4.3.jar:/Users/suderman/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.3.1/jackson-databind-2.3.1.jar:/Users/suderman/.m2/repository/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar:/Users/suderman/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.3.1/jackson-core-2.3.1.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/suderman/Workspaces/IntelliJ/Lappsgrid/org.lappsgrid.serialization/src/main/groovy'
+-author
+-bottom
+'Copyright &#169; 2013&#x2013;2017 <a href="http://www.lappsgrid.org">The Language Application Grid</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/suderman/Workspaces/IntelliJ/Lappsgrid/org.lappsgrid.serialization/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'LAPPS Exchange Data Structures (LEDS) 2.5.0 API'
+-linkoffline
+'http://docs.oracle.com/javase/8/docs/api' '/Users/suderman/Workspaces/IntelliJ/Lappsgrid/org.lappsgrid.serialization/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'LAPPS Exchange Data Structures (LEDS) 2.5.0 API'
