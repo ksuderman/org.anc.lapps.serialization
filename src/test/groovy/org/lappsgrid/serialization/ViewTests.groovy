@@ -95,4 +95,10 @@ class ViewTests {
         assertTrue(view.getContains("dummy").get("arbitrariness") == "true")
     }
 
+    @Test
+    void containsArbitraryFields() {
+        view.addContains('T', 'T.producer', 'T.type')
+        view.metadata.contains['T'].dependsOn = 'v1'
+        println new JsonBuilder(view).toPrettyString()
+    }
 }
