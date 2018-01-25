@@ -89,6 +89,10 @@ public class View {
         metadata[name] = value
     }
 
+    Object getMetaData(String name) {
+        return metadata[name]
+    }
+
     /**
      * Adds an annotation to the processing step's list of annotations.
      */
