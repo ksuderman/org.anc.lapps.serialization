@@ -3,8 +3,10 @@ package org.lappsgrid.serialization
 import groovy.json.JsonBuilder
 import org.junit.*
 import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
+import static org.lappsgrid.discriminator.Discriminators.*;
 
 import static org.junit.Assert.*
 
@@ -100,5 +102,24 @@ class ViewTests {
         view.addContains('T', 'T.producer', 'T.type')
         view.metadata.contains['T'].dependsOn = 'v1'
         println new JsonBuilder(view).toPrettyString()
+    }
+
+    @Test
+    void metadataSerialization() {
+        Container c = new Container();
+        View v = c.newView();
+        v.addMetaData("key", "value")
+        v.addMetaData("list", [0,1,2,3,4])
+
+        Data data = new Data(Uri.LIF, c);
+        data = Serializer.parse(data.asJson());
+        c = new Container((Map) data.payload);
+        v = c.getView(0);
+        assertEquals("value", v.getMetaData("key"));
+        List list = (List) v.getMetaData("list");
+        assert 5 == list.size();
+        for (int i=0; i < 5; ++i) {
+            assert i == list.get(i);
+        }
     }
 }
