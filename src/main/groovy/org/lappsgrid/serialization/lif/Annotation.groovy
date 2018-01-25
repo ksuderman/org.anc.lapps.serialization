@@ -158,6 +158,12 @@ public class Annotation {
                     break
             }
         }
+        if (features == null) {
+            features = [:]
+        }
+        if (metadata == null) {
+            metadata = [:]
+        }
     }
 
     @JsonIgnore
