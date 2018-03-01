@@ -65,7 +65,7 @@ import org.lappsgrid.serialization.Utils
  *
  * @author Keith Suderman
  */
-@JsonPropertyOrder(["context","metadata","text","views"])
+@JsonPropertyOrder(["context", '$schema', "metadata","text","views"])
 public class Container {
 
     public enum ContextType {
@@ -75,6 +75,10 @@ public class Container {
     /** The text that is to be annotated. */
     @JsonProperty('text')
     Content content;
+
+    /** URL to the schema the document conforms to. */
+    @JsonProperty('$schema')
+    String schema
 
     /** Any meta-data attached to this container. */
     Map metadata
@@ -268,19 +272,16 @@ public class Container {
         else {
             this.context = Container.REMOTE_CONTEXT
         }
+        if (map['$schema']) {
+            this.schema = map['$schema']
+        }
 
         this.content = new Content()//value:map.text.value, language:map.text.language)
         this.text = map.text['@value']
         this.language = map.text['@language']
         this.metadata = Utils.deepCopy(map.metadata)
-//        this.views = Utils.deepCopy(map.views)
-//        this.metadata = [:]
-//        map.metadata.each { name, value ->
-//            this.metadata[name] = value
-//        }
         this.views = []
         map.views.each { v ->
-//            View view = new View(v)
             this.views << new View(v)
         }
     }
