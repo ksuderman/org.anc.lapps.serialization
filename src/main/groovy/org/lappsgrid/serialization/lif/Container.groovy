@@ -191,8 +191,13 @@ public class Container {
         return view
     }
 
-    View newView() throws LifException {
-        return newView(generateId())
+    View newView() {
+        try {
+            return newView(generateId())
+        } catch (LifException ignored) {
+            // `generateId()` should check duplicate view-ids
+            // so this would never raise
+        }
     }
 
     void addView(View view) {
