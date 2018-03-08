@@ -90,6 +90,15 @@ class Contains {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
     }
+
+    @JsonProperty
+    void setTagSet(String atTypeName, String value) throws LifException {
+        if (tagsetKeys.containsKey(atTypeName)) {
+            data[tagsetKeys[atTypeName]] = value
+        } else {
+            throw new LifException("No tagset-like feature is defined for ${atTypeName} ")
+        }
+    }
     String getTagSet() {
         if (tagsetKeys.containsKey(getAtType())) {
             return data[tagsetKeys[getAtType()]]
