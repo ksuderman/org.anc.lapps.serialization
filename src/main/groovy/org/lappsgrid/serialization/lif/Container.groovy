@@ -243,6 +243,14 @@ public class Container {
         return this.metadata[name]
     }
 
+    public String getSchema() {
+        return schema
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema
+    }
+
     void define(String name, String iri) throws LappsIOException
     {
         if (!(this.context instanceof Map)) {
