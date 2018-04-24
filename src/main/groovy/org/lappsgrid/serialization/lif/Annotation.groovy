@@ -29,7 +29,7 @@ import org.lappsgrid.serialization.Utils
  * @author Keith Suderman
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonPropertyOrder(['id', 'start', 'end', '@type', 'type', 'label', 'features', 'metadata'])
+@JsonPropertyOrder(['id', 'start', 'end', '@type', 'label', 'features', 'metadata'])
 public class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>
