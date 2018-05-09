@@ -29,7 +29,7 @@ import org.lappsgrid.serialization.Utils
  * @author Keith Suderman
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonPropertyOrder(['id', 'start', 'end', '@type', 'type', 'label', 'features', 'metadata'])
+@JsonPropertyOrder(['id', 'start', 'end', '@type', 'label', 'features', 'metadata'])
 public class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>
@@ -45,9 +45,6 @@ public class Annotation {
     /** The {@literal @}type value (if any) for the JSON element. */
     @JsonProperty('@type')
     String atType
-
-    /** A type from the Lappsgrid vocabulary. */
-    String type
 
     /** The start offset of the annotation. */
     Long start = null
@@ -101,7 +98,6 @@ public class Annotation {
         this.start = annotation.start
         this.end = annotation.end
         this.atType = annotation.atType
-        this.type = annotation.type
         if (annotation.features) {
             this.features = Utils.deepCopy(annotation.features)
         }
@@ -124,9 +120,6 @@ public class Annotation {
                     break
                 case '@type':
                     this.atType = value
-                    break
-                case 'type':
-                    this.type = value
                     break
                 case 'start':
                     this.start = value as Long

@@ -139,7 +139,6 @@ public class ContainerTest {
         a.end = 5
         a.label = 'Token'
         a.atType = 'Token'
-        a.type = 'Lapps:TextAnnotation'
         a.features.pos = 'NN'
         a.features.lemma = 'hello'
 
@@ -151,7 +150,6 @@ public class ContainerTest {
         assertTrue(view.annotations.size() == 1)
         a = view.annotations[0]
         assertTrue(a.label == 'Token')
-        assertTrue(a.type == 'Lapps:TextAnnotation')
         println json
     }
 
