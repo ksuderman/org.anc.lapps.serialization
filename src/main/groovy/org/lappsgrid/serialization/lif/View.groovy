@@ -160,7 +160,7 @@ public class View {
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        Contains result = new Contains(producer:producer, type:type)
+        Contains result = new Contains(atType:name, producer:producer, type:type)
         metadata.contains[name] = result
         result
     }

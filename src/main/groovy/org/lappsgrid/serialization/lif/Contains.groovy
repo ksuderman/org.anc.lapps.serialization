@@ -16,8 +16,13 @@
  */
 package org.lappsgrid.serialization.lif
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import org.lappsgrid.serialization.LifException
+
+import static org.lappsgrid.discriminator.Discriminators.Uri;
+
 
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
@@ -31,6 +36,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
  */
 @JsonPropertyOrder(['type', 'producer', 'url', 'tagSet', 'dependsOn'])
 class Contains {
+
+    @JsonIgnore
+    String atType
+
+    // TODO: 3/1/2018 find a way to programmatically read in these names from vocabulary
+    static def tagsetKeys = [(Uri.POS)                 : "posTagSet",
+                             (Uri.NE)                  : "namedEntityCategorySet",
+                             (Uri.PHRASE_STRUCTURE)    : "categorySet",
+                             (Uri.DEPENDENCY_STRUCTURE): "dependencySet"]
+
     @Delegate
     HashMap data = new HashMap()
 
@@ -56,12 +71,40 @@ class Contains {
         return data.type
 
     }
+
+    @JsonIgnore
+    void setAtType(String atType) {
+        this.atType = atType
+    }
+
+    @JsonIgnore
+    String getAtType() {
+        return this.atType
+    }
+
     @JsonProperty
-    void setTagSet(String tagSet) {
-        data.tagSet = tagSet
+    void setTagSet(String value) throws LifException {
+        if (tagsetKeys.containsKey(getAtType())) {
+            data[tagsetKeys[getAtType()]] = value
+        } else {
+            throw new LifException("No tagset-like feature is defined for ${this.atType} ")
+        }
+    }
+
+    @JsonProperty
+    void setTagSet(String atTypeName, String value) throws LifException {
+        if (tagsetKeys.containsKey(atTypeName)) {
+            data[tagsetKeys[atTypeName]] = value
+        } else {
+            throw new LifException("No tagset-like feature is defined for ${atTypeName} ")
+        }
     }
     String getTagSet() {
-        return tagSet
+        if (tagsetKeys.containsKey(getAtType())) {
+            return data[tagsetKeys[getAtType()]]
+        } else {
+            throw new LifException("No tagset-like feature is defined for ${this.atType} ")
+        }
     }
 //    @JsonProperty
 //    void setDependsOn(List<DependsOn> dependsOn) {
