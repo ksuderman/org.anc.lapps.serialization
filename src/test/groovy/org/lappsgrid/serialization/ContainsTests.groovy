@@ -61,20 +61,23 @@ class ContainsTests {
         Contains c = view.addContains(Discriminators.Uri.POS, 'producer', 'type')
         assert 2 == c.size()
         c.url = 'url'
-        c.setTagSet('tagSet')
+//        c.setTagSet('tagSet')
+        c.tagSet = 'tagSet'
         c.dependsOn = [view:'v1', type:'T2']
         assert 5 == c.size()
         assert 'producer' == c.producer
         assert 'type' == c.type
         assert 'url' == c.url
-        assert 'tagSet' == c.getTagSet()
+        assert 'tagSet' == c.tagSet
+//        assert 'tagSet' == c.getTagSet()
 
         c = roundTrip(c)
         assert 5 == c.size()
         assert 'producer' == c.producer
         assert 'type' == c.type
         assert 'url' == c.url
-        assert 'tagSet' == c.getTagSet()
+        assert 'tagSet' == c.tagSet
+//        assert 'tagSet' == c.getTagSet()
     }
 
     @Test
@@ -118,10 +121,12 @@ class ContainsTests {
 
     // Serialize to a JSON string and then parse it back into an object.
     Contains roundTrip(Contains object) {
+        println "pre tag set: ${object.getTagSet()}"
         String json = Serializer.toJson(object)
         Contains con = Serializer.parse(json, Contains)
         // because this 'atType' is a @JsonIgnore
         con.setAtType(object.getAtType())
+        println "post tag set: ${object.getTagSet()}"
         return con
     }
 }
