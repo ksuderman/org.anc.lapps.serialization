@@ -72,40 +72,44 @@ class Contains {
 
     }
 
-    @JsonIgnore
-    void setAtType(String atType) {
-        this.atType = atType
-    }
-
-    @JsonIgnore
-    String getAtType() {
-        return this.atType
-    }
+//    @JsonIgnore
+//    void setAtType(String atType) {
+//        this.atType = atType
+//    }
+//
+//    @JsonIgnore
+//    String getAtType() {
+//        return this.atType
+//    }
 
     @JsonProperty
     void setTagSet(String value) throws LifException {
+//        println "Setting tagset to $value"
         if (tagsetKeys.containsKey(getAtType())) {
-            data[tagsetKeys[getAtType()]] = value
+            String key = tagsetKeys[getAtType()]
+            println "Setting $key to $value"
+            data[key] = value
         } else {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
     }
 
-    @JsonProperty
-    void setTagSet(String atTypeName, String value) throws LifException {
-        if (tagsetKeys.containsKey(atTypeName)) {
-            data[tagsetKeys[atTypeName]] = value
-        } else {
-            throw new LifException("No tagset-like feature is defined for ${atTypeName} ")
-        }
-    }
-    String getTagSet() {
-        if (tagsetKeys.containsKey(getAtType())) {
-            return data[tagsetKeys[getAtType()]]
+    String getTagSet() throws LifException {
+        println 'Getting tag set.'
+        String atType = getAtType()
+        println atType
+        if (tagsetKeys.containsKey(atType)) {
+            println "tagsetKeys contains $atType"
+            String key = tagsetKeys[atType]
+            println "Key is $key"
+            Object data = data[key]
+            println "data is ${data.toString()}"
+            return data
         } else {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
     }
+
 //    @JsonProperty
 //    void setDependsOn(List<DependsOn> dependsOn) {
 //        data.dependsOn = dependsOn
