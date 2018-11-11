@@ -161,7 +161,7 @@ class ContainsTests {
         c.dependency("v2", Uri.NE)
         c.timestamp = LocalDateTime.now().toString()
 
-        println Serializer.toPrettyJson(view)
+        println Serializer.toPrettyJson(c)
 
     }
 
