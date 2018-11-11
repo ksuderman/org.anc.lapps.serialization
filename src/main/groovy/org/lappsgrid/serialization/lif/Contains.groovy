@@ -72,20 +72,23 @@ class Contains {
 
     }
 
-    @JsonIgnore
-    void setAtType(String atType) {
-        this.atType = atType
-    }
-
-    @JsonIgnore
-    String getAtType() {
-        return this.atType
-    }
+//    @JsonIgnore
+//    void setAtType(String atType) {
+//        this.atType = atType
+//    }
+//
+//    @JsonIgnore
+//    String getAtType() {
+//        return this.atType
+//    }
 
     @JsonProperty
     void setTagSet(String value) throws LifException {
+//        println "Setting tagset to $value"
         if (tagsetKeys.containsKey(getAtType())) {
-            data[tagsetKeys[getAtType()]] = value
+            String key = tagsetKeys[getAtType()]
+            println "Setting $key to $value"
+            data[key] = value
         } else {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
@@ -101,6 +104,7 @@ class Contains {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
     }
+
 //    @JsonProperty
 //    void setDependsOn(List<DependsOn> dependsOn) {
 //        data.dependsOn = dependsOn
