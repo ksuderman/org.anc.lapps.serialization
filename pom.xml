@@ -48,11 +48,10 @@
         <system>travis</system>
     </ciManagement>
     <properties>
-        <!-- <anc.common.version>3.5.0</anc.common.version> -->
         <lapps.discriminator.version>2.3.3-SNAPSHOT</lapps.discriminator.version>
         <groovy.version>2.5.3</groovy.version>
         <ivy.version>2.4.0</ivy.version>
-        <json.validator.version>1.1.1</json.validator.version>
+        <json.validator.version>1.1.2-SNAPSHOT</json.validator.version>
     </properties>
     <build>
         <plugins>
@@ -126,12 +125,14 @@
             <artifactId>validator</artifactId>
             <version>${json.validator.version}</version>
             <scope>test</scope>
+            <!--
             <exclusions>
                 <exclusion>
                     <groupId>org.codehaus.groovy</groupId>
                     <artifactId>groovy-all</artifactId>
                 </exclusion>
             </exclusions>
+            -->
         </dependency>
     </dependencies>
     <reporting>

@@ -84,9 +84,11 @@ class Contains {
 
     @JsonProperty
     void setTagSet(String value) throws LifException {
-        println "Setting tagset to $value"
+//        println "Setting tagset to $value"
         if (tagsetKeys.containsKey(getAtType())) {
-            data[tagsetKeys[getAtType()]] = value
+            String key = tagsetKeys[getAtType()]
+            println "Setting $key to $value"
+            data[key] = value
         } else {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
@@ -94,8 +96,15 @@ class Contains {
 
     String getTagSet() throws LifException {
         println 'Getting tag set.'
-        if (tagsetKeys.containsKey(getAtType())) {
-            return data[tagsetKeys[getAtType()]]
+        String atType = getAtType()
+        println atType
+        if (tagsetKeys.containsKey(atType)) {
+            println "tagsetKeys contains $atType"
+            String key = tagsetKeys[atType]
+            println "Key is $key"
+            Object data = data[key]
+            println "data is ${data.toString()}"
+            return data
         } else {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
         }
