@@ -22,7 +22,8 @@ import groovy.transform.Canonical
  * @author Keith Suderman
  */
 @Canonical
-class DependsOn {
+class Dependency {
     String view
-    List<String> type
+    String type
+
 }

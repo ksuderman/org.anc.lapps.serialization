@@ -49,6 +49,8 @@ class Contains {
     @Delegate
     HashMap data = new HashMap()
 
+//    List<DependsOn> dependencies = []
+
     @JsonProperty
     void setUrl(String url) {
         data.url = url
@@ -72,22 +74,10 @@ class Contains {
 
     }
 
-//    @JsonIgnore
-//    void setAtType(String atType) {
-//        this.atType = atType
-//    }
-//
-//    @JsonIgnore
-//    String getAtType() {
-//        return this.atType
-//    }
-
     @JsonProperty
     void setTagSet(String value) throws LifException {
-//        println "Setting tagset to $value"
         if (tagsetKeys.containsKey(getAtType())) {
             String key = tagsetKeys[getAtType()]
-            println "Setting $key to $value"
             data[key] = value
         } else {
             throw new LifException("No tagset-like feature is defined for ${this.atType} ")
@@ -105,27 +95,34 @@ class Contains {
         }
     }
 
-//    @JsonProperty
-//    void setDependsOn(List<DependsOn> dependsOn) {
-//        data.dependsOn = dependsOn
-//    }
-//    List<DependsOn> getDependsOn() {
-//        return data.dependsOn
-//    }
-//    void dependOn(String view, String type) {
-//        List<DependsOn> list = data.dependsOn
-//        if (list == null) {
-//            list = new ArrayList<DependsOn>()
-//            data.dependsOn = list
-//        }
-//        list << new DependsOn(view, [ type ])
-//    }
-//    void dependsOn(String view, List<String> types) {
-//        List<DependsOn> list = data.dependsOn
-//        if (list == null) {
-//            list = new ArrayList<DependsOn>()
-//            data.dependsOn = list
-//        }
-//        list << new DependsOn(view, types)
-//    }
+    @JsonProperty
+    void setDependsOn(List<Dependency> dependsOn) {
+        data.dependsOn = dependsOn
+    }
+
+    List<Dependency> getDependsOn() {
+        return data.dependsOn
+    }
+
+    @JsonProperty
+    void setTimestamp(String timestamp) {
+        data.timestamp = timestamp
+    }
+
+    String getTimestamp() {
+        return data.timestamp
+    }
+
+    void dependency(String view, String type) {
+        dependency(new Dependency(view, type))
+    }
+
+    void dependency(Dependency dependency) {
+        List<Dependency> dependencies = data.dependsOn
+        if (dependencies == null) {
+            dependencies = []
+            data.dependsOn = dependencies
+        }
+        dependencies.add(dependency)
+    }
 }
