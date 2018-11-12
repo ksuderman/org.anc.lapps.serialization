@@ -16,20 +16,22 @@
 
 package org.lappsgrid.serialization
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.lappsgrid.serialization.lif.Dependency
+import org.lappsgrid.serialization.lif.View
 
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 import static org.lappsgrid.discriminator.Discriminators.*
 
 import static org.junit.Assert.*
 
 import org.lappsgrid.serialization.lif.Contains
-import org.lappsgrid.serialization.lif.View
 
 /**
  * @author Keith Suderman
@@ -144,24 +146,12 @@ class ContainsTests {
         assert Uri.NE == dependency.type
     }
 
-    @Test
-    void timestamp() {
-        Contains c = view.addContains(Uri.TOKEN, "producer", "type")
-        c.timestamp = 'today'
-
-        c = roundTrip(c)
-
-        assert 'today' == c.timestamp
-    }
-
-    @Test
+//    @Test
     void print() {
         Contains c = view.addContains(Uri.RELATION, "producer", "type")
         c.dependency("v1", Uri.TOKEN)
         c.dependency("v2", Uri.NE)
-
         println Serializer.toPrettyJson(view)
-        println "Hello world."
     }
 
     // Serialize to a JSON string and then parse it back into an object.
@@ -173,3 +163,10 @@ class ContainsTests {
         return con
     }
 }
+
+//@JsonPropertyOrder(["id", "metadata", "annotations"])
+//class WTF {
+//    String id
+//    Map annotations = [:]
+//    Map metadata = [:]
+//}

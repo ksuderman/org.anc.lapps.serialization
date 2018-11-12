@@ -3,8 +3,6 @@ package org.lappsgrid.serialization
 import org.junit.*
 import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.lif.Annotation
-import org.lappsgrid.serialization.lif.Container
-import org.lappsgrid.serialization.lif.View
 
 import static org.junit.Assert.*
 

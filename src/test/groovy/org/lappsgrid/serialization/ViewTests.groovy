@@ -6,6 +6,9 @@ import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
+
+import java.time.ZoneId
+
 import static org.lappsgrid.discriminator.Discriminators.*;
 
 import static org.junit.Assert.*
@@ -132,6 +135,5 @@ class ViewTests {
         assert null != clone.getTimestamp()
         assert v.getTimestamp() != clone.getTimestamp()
     }
-
 
 }
