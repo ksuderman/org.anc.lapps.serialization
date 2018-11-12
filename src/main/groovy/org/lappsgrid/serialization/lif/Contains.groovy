@@ -104,15 +104,6 @@ class Contains {
         return data.dependsOn
     }
 
-    @JsonProperty
-    void setTimestamp(String timestamp) {
-        data.timestamp = timestamp
-    }
-
-    String getTimestamp() {
-        return data.timestamp
-    }
-
     void dependency(String view, String type) {
         dependency(new Dependency(view, type))
     }

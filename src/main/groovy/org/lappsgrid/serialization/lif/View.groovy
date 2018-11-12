@@ -19,6 +19,8 @@ package org.lappsgrid.serialization.lif
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.lappsgrid.serialization.Utils
 
+import java.time.LocalDateTime
+
 /**
  * A View consists of some metadata and a list of annotations.
  * <p>
@@ -51,6 +53,7 @@ public class View {
     public View() {
         metadata = [:]
         annotations = []
+        this.metadata.timestamp = View.timestamp()
     }
 
     public View(String id) {
@@ -73,12 +76,14 @@ public class View {
         map.annotations.each { a ->
             annotations << new Annotation(a)
         }
+        this.metadata.timestamp = View.timestamp()
     }
 
     public View(View view) {
         this.id = view.id
         this.metadata = Utils.deepCopy(view.metadata)
         this.annotations = Utils.deepCopy(view.annotations)
+        this.metadata.timestamp = View.timestamp()
     }
 
     /**
@@ -156,7 +161,6 @@ public class View {
      * @param type The annotation type. Currently this field is under-defined.
      */
     Contains addContains(String name, String producer, String type) {
-//        ValueObject containsType = new ValueObject(type:type, value:value)
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
@@ -173,4 +177,23 @@ public class View {
         return annotations.findAll { it.atType == type }
     }
 
+    String getTimestamp() {
+        return metadata.timestamp
+    }
+
+    void setTimestamp() {
+        setTimestamp(View.timestamp())
+    }
+
+    void setTimestamp(String time) {
+        metadata.timestamp = time
+    }
+
+    static String timestamp() {
+        return LocalDateTime.now().toString()
+    }
+
+    static LocalDateTime parseTime(String time) {
+        return LocalDateTime.parse(time)
+    }
 }

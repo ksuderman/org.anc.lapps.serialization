@@ -154,15 +154,14 @@ class ContainsTests {
         assert 'today' == c.timestamp
     }
 
-//    @Test
+    @Test
     void print() {
         Contains c = view.addContains(Uri.RELATION, "producer", "type")
         c.dependency("v1", Uri.TOKEN)
         c.dependency("v2", Uri.NE)
-        c.timestamp = LocalDateTime.now().toString()
 
-        println Serializer.toPrettyJson(c)
-
+        println Serializer.toPrettyJson(view)
+        println "Hello world."
     }
 
     // Serialize to a JSON string and then parse it back into an object.

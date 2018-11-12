@@ -122,4 +122,16 @@ class ViewTests {
             assert i == list.get(i);
         }
     }
+
+    @Test
+    void hasTimestamp() {
+        View v = new View()
+        assert null != v.getTimestamp()
+
+        View clone = new View(v)
+        assert null != clone.getTimestamp()
+        assert v.getTimestamp() != clone.getTimestamp()
+    }
+
+
 }
