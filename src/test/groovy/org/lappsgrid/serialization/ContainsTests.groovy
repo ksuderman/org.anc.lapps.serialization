@@ -146,6 +146,19 @@ class ContainsTests {
         assert Uri.NE == dependency.type
     }
 
+    @Test
+    void tagSets() {
+        Contains c = view.addContains(Uri.POS, "some guy", "type")
+        c.setTagSet("penn")
+        c = view.addContains(Uri.NE, "another guy", "type")
+        c.setTagSet("neset")
+
+        String json = Serializer.toJson(view)
+        Map map = Serializer.parse(json, HashMap)
+        assert 'penn' == map.metadata.contains[Uri.POS].posTagSet
+        assert 'neset' == map.metadata.contains[Uri.NE].namedEntityCategorySet
+    }
+
 //    @Test
     void print() {
         Contains c = view.addContains(Uri.RELATION, "producer", "type")
