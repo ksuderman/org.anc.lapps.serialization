@@ -103,7 +103,7 @@ class ViewTests {
     @Test
     void containsArbitraryFields() {
         view.addContains('T', 'T.producer', 'T.type')
-        view.metadata.contains['T'].dependsOn = 'v1'
+        view.getContains('T').dependency('v1', 'D')
         println new JsonBuilder(view).toPrettyString()
     }
 

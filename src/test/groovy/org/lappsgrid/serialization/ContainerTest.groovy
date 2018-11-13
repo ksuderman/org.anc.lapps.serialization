@@ -21,6 +21,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+
+import static org.junit.Assert.assertNotEquals
 import static org.lappsgrid.discriminator.Discriminators.Uri
 import org.lappsgrid.serialization.lif.Container.ContextType
 import org.lappsgrid.serialization.lif.Annotation
@@ -242,9 +244,10 @@ public class ContainerTest {
         View v1 = container.views[0]
         View v2 = copy.views[0]
         assertEquals v1.id, v2.id
-        assertEquals 1, v2.metadata.size()
+        assertEquals 2, v2.metadata.size()
         assertNotNull v2.metadata['contains']
         assertNotNull v2.metadata.contains.words
+        assertNotEquals(v1.getTimestamp(), v2.getTimestamp())
         assertEquals 'tests', v2.metadata.contains.words.producer
         assertEquals 'string', v2.metadata.contains.words.type
         assertEquals 2, v2.annotations.size()
