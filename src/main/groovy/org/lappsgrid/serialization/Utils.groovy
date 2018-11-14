@@ -4,10 +4,17 @@ import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
 
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+
 /**
  * @author Keith Suderman
  */
 class Utils {
+
+    static final ZoneId UTC = ZoneId.of("UTC")
+
     static String deepCopy(String string) {
         return string
     }
@@ -61,4 +68,13 @@ class Utils {
     static View deepCopy(View view) {
         return new View(view)
     }
+
+    static String timestamp() {
+        return ZonedDateTime.now(UTC).toString()
+    }
+
+    static ZonedDateTime parseTime(String time) {
+        return ZonedDateTime.parse(time)
+    }
+
 }

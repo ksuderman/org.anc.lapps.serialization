@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Language Applications Grid
+ * Copyright (C) 2018 The Language Applications Grid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,23 @@
  *
  */
 
-package org.lappsgrid.serialization.lif
+package org.lappsgrid.serialization
 
-import groovy.transform.Canonical
+import org.junit.Test
+
+import java.time.ZonedDateTime
 
 /**
- * @author Keith Suderman
+ *
  */
-@Canonical
-class DependsOn {
-    String view
-    List<String> type
+class UtilsTests {
+
+    @Test
+    void timestampTests() {
+        String t = Utils.timestamp()
+        println t
+
+        ZonedDateTime time = Utils.parseTime(t)
+        assert t == time.toString()
+    }
 }

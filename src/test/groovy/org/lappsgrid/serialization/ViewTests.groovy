@@ -6,6 +6,9 @@ import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
+
+import java.time.ZoneId
+
 import static org.lappsgrid.discriminator.Discriminators.*;
 
 import static org.junit.Assert.*
@@ -100,7 +103,7 @@ class ViewTests {
     @Test
     void containsArbitraryFields() {
         view.addContains('T', 'T.producer', 'T.type')
-        view.metadata.contains['T'].dependsOn = 'v1'
+        view.getContains('T').dependency('v1', 'D')
         println new JsonBuilder(view).toPrettyString()
     }
 
@@ -122,4 +125,15 @@ class ViewTests {
             assert i == list.get(i);
         }
     }
+
+    @Test
+    void hasTimestamp() {
+        View v = new View()
+        assert null != v.getTimestamp()
+
+        View clone = new View(v)
+        assert null != clone.getTimestamp()
+        assert v.getTimestamp() != clone.getTimestamp()
+    }
+
 }
