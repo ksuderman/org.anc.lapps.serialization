@@ -16,8 +16,13 @@
  */
 package org.lappsgrid.serialization.lif
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.lappsgrid.serialization.Utils
+
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 /**
  * A View consists of some metadata and a list of annotations.
@@ -51,6 +56,7 @@ public class View {
     public View() {
         metadata = [:]
         annotations = []
+        this.setTimestamp()
     }
 
     public View(String id) {
@@ -64,21 +70,18 @@ public class View {
         }
         this.id = map['id']
         this.metadata = Utils.deepCopy(map.metadata)
-//        metadata = [:]
-//        map.metadata.each { name, value ->
-//            metadata[name] = value
-//        }
-        //annotations = map.annotations
         annotations = []
         map.annotations.each { a ->
             annotations << new Annotation(a)
         }
+        this.setTimestamp()
     }
 
     public View(View view) {
         this.id = view.id
         this.metadata = Utils.deepCopy(view.metadata)
         this.annotations = Utils.deepCopy(view.annotations)
+        this.setTimestamp()
     }
 
     /**
@@ -87,6 +90,10 @@ public class View {
      */
     void addMetaData(String name, Object value) {
         metadata[name] = value
+    }
+
+    Object getMetaData(String name) {
+        return metadata[name]
     }
 
     /**
@@ -152,11 +159,10 @@ public class View {
      * @param type The annotation type. Currently this field is under-defined.
      */
     Contains addContains(String name, String producer, String type) {
-//        ValueObject containsType = new ValueObject(type:type, value:value)
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        Contains result = new Contains(producer:producer, type:type)
+        Contains result = new Contains(atType:name, producer:producer, type:type)
         metadata.contains[name] = result
         result
     }
@@ -167,6 +173,19 @@ public class View {
 
     List<Annotation> findByAtType(String type) {
         return annotations.findAll { it.atType == type }
+    }
+
+    @JsonIgnore
+    String getTimestamp() {
+        return metadata.timestamp
+    }
+
+    void setTimestamp() {
+        setTimestamp(Utils.timestamp())
+    }
+
+    void setTimestamp(String time) {
+        this.metadata.timestamp = time
     }
 
 }

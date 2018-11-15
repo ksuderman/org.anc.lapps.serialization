@@ -16,8 +16,13 @@
  */
 package org.lappsgrid.serialization.lif
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import org.lappsgrid.serialization.LifException
+
+import static org.lappsgrid.discriminator.Discriminators.Uri;
+
 
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
@@ -31,8 +36,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
  */
 @JsonPropertyOrder(['type', 'producer', 'url', 'tagSet', 'dependsOn'])
 class Contains {
+
+    @JsonIgnore
+    String atType
+
+    // TODO: 3/1/2018 find a way to programmatically read in these names from vocabulary
+    static def tagsetKeys = [(Uri.POS)                 : "posTagSet",
+                             (Uri.NE)                  : "namedEntityCategorySet",
+                             (Uri.PHRASE_STRUCTURE)    : "categorySet",
+                             (Uri.DEPENDENCY_STRUCTURE): "dependencySet"]
+
     @Delegate
     HashMap data = new HashMap()
+
+//    List<DependsOn> dependencies = []
 
     @JsonProperty
     void setUrl(String url) {
@@ -56,34 +73,47 @@ class Contains {
         return data.type
 
     }
+
     @JsonProperty
-    void setTagSet(String tagSet) {
-        data.tagSet = tagSet
+    void setTagSet(String value) throws LifException {
+        if (tagsetKeys.containsKey(getAtType())) {
+            String key = tagsetKeys[getAtType()]
+            data[key] = value
+        } else {
+            throw new LifException("No tagset-like feature is defined for ${this.atType} ")
+        }
     }
-    String getTagSet() {
-        return tagSet
+
+    String getTagSet() throws LifException {
+        String atType = getAtType()
+        if (tagsetKeys.containsKey(atType)) {
+            String key = tagsetKeys[atType]
+            Object data = data[key]
+            return data
+        } else {
+            throw new LifException("No tagset-like feature is defined for ${this.atType} ")
+        }
     }
-//    @JsonProperty
-//    void setDependsOn(List<DependsOn> dependsOn) {
-//        data.dependsOn = dependsOn
-//    }
-//    List<DependsOn> getDependsOn() {
-//        return data.dependsOn
-//    }
-//    void dependOn(String view, String type) {
-//        List<DependsOn> list = data.dependsOn
-//        if (list == null) {
-//            list = new ArrayList<DependsOn>()
-//            data.dependsOn = list
-//        }
-//        list << new DependsOn(view, [ type ])
-//    }
-//    void dependsOn(String view, List<String> types) {
-//        List<DependsOn> list = data.dependsOn
-//        if (list == null) {
-//            list = new ArrayList<DependsOn>()
-//            data.dependsOn = list
-//        }
-//        list << new DependsOn(view, types)
-//    }
+
+    @JsonProperty
+    void setDependsOn(List<Dependency> dependsOn) {
+        data.dependsOn = dependsOn
+    }
+
+    List<Dependency> getDependsOn() {
+        return data.dependsOn
+    }
+
+    void dependency(String view, String type) {
+        dependency(new Dependency(view, type))
+    }
+
+    void dependency(Dependency dependency) {
+        List<Dependency> dependencies = data.dependsOn
+        if (dependencies == null) {
+            dependencies = []
+            data.dependsOn = dependencies
+        }
+        dependencies.add(dependency)
+    }
 }

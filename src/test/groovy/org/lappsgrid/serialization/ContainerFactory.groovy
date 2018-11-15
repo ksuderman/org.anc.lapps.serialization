@@ -17,7 +17,6 @@
 
 package org.lappsgrid.serialization
 
-import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
 

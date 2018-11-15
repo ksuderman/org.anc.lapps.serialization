@@ -3,8 +3,13 @@ package org.lappsgrid.serialization
 import groovy.json.JsonBuilder
 import org.junit.*
 import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
+
+import java.time.ZoneId
+
+import static org.lappsgrid.discriminator.Discriminators.*;
 
 import static org.junit.Assert.*
 
@@ -93,6 +98,42 @@ class ViewTests {
         assertTrue(view.contains("dummy"))
         view.getContains("dummy").put("arbitrariness", "true")
         assertTrue(view.getContains("dummy").get("arbitrariness") == "true")
+    }
+
+    @Test
+    void containsArbitraryFields() {
+        view.addContains('T', 'T.producer', 'T.type')
+        view.getContains('T').dependency('v1', 'D')
+        println new JsonBuilder(view).toPrettyString()
+    }
+
+    @Test
+    void metadataSerialization() {
+        Container c = new Container();
+        View v = c.newView();
+        v.addMetaData("key", "value")
+        v.addMetaData("list", [0,1,2,3,4])
+
+        Data data = new Data(Uri.LIF, c);
+        data = Serializer.parse(data.asJson());
+        c = new Container((Map) data.payload);
+        v = c.getView(0);
+        assertEquals("value", v.getMetaData("key"));
+        List list = (List) v.getMetaData("list");
+        assert 5 == list.size();
+        for (int i=0; i < 5; ++i) {
+            assert i == list.get(i);
+        }
+    }
+
+    @Test
+    void hasTimestamp() {
+        View v = new View()
+        assert null != v.getTimestamp()
+
+        View clone = new View(v)
+        assert null != clone.getTimestamp()
+        assert v.getTimestamp() != clone.getTimestamp()
     }
 
 }
