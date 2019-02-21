@@ -83,6 +83,7 @@ public class ContainerTest {
         final String json = TEST_FILE.getText('UTF-8')
         Container copy = Serializer.parse(json, Container);
         assertTrue(original.text == copy.text)
+        println Serializer.toPrettyJson(copy)
     }
 
     @Test
