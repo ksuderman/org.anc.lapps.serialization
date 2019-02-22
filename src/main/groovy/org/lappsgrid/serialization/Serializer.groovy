@@ -20,6 +20,7 @@ package org.lappsgrid.serialization
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
+import groovy.transform.CompileStatic
 
 /**
  * Serializes objects to/from JSON.
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
  *
  * @author Keith Suderman
  */
+@CompileStatic
 class Serializer {
     private static ObjectMapper mapper;
     private static ObjectMapper prettyPrinter;

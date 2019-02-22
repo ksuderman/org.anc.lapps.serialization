@@ -19,6 +19,8 @@ package org.lappsgrid.serialization.lif
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.LappsIOException
 import org.lappsgrid.serialization.LifException
 import org.lappsgrid.serialization.Utils
@@ -65,6 +67,7 @@ import org.lappsgrid.serialization.Utils
  *
  * @author Keith Suderman
  */
+@CompileStatic
 @JsonPropertyOrder(["context", '$schema', "metadata","text","views"])
 public class Container {
 
@@ -225,6 +228,7 @@ public class Container {
         views.findAll { it?.metadata?.contains && it.metadata.contains[type] }
     }
 
+    @CompileDynamic
     List<View> findViewsThatContainBy(String type, String producer) {
         views.findAll { it?.metadata?.contains && it.metadata.contains[type]?.producer == producer }
     }
@@ -243,6 +247,7 @@ public class Container {
         return this.metadata[name]
     }
 
+    @CompileDynamic
     void define(String name, String iri) throws LappsIOException
     {
         if (!(this.context instanceof Map)) {
@@ -267,6 +272,7 @@ public class Container {
         return id;
     }
 
+    @CompileDynamic
     private void initFromMap(Map map) {
         if (map == null) {
             return

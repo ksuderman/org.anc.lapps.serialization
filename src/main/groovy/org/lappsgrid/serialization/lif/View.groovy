@@ -18,6 +18,7 @@ package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.Utils
 
 import java.time.LocalDateTime
@@ -36,6 +37,7 @@ import java.time.ZonedDateTime
  *
  * @author Keith Suderman
  */
+@CompileStatic
 @JsonPropertyOrder(['id', 'metadata', 'annotations'])
 public class View {
     /**
@@ -69,9 +71,9 @@ public class View {
             return
         }
         this.id = map['id']
-        this.metadata = Utils.deepCopy(map.metadata)
+        this.metadata = Utils.deepCopy((Map) map.metadata)
         annotations = []
-        map.annotations.each { a ->
+        map.annotations.each { Map a ->
             annotations << new Annotation(a)
         }
         this.setTimestamp()
@@ -149,7 +151,7 @@ public class View {
     }
 
     Contains getContains(String name) {
-        return metadata?.contains[name]
+        return (Contains) metadata?.contains[name]
     }
 
     /**
@@ -162,7 +164,8 @@ public class View {
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        Contains result = new Contains(atType:name, producer:producer, type:type)
+        Contains result = new Contains(atType:name, type:type)
+        result.setProducer(producer)
         metadata.contains[name] = result
         result
     }
