@@ -126,6 +126,25 @@ class ViewTests {
         }
     }
 
+    @Ignore
+    void metadataWithContainsSerialization() {
+        Container container = new Container()
+        View view = container.newView()
+        view.addContains(Uri.TOKEN, "JUnit test", "token")
+        view.addContains(Uri.POS, "JUnit test", "pos")
+
+        Data data = new Data(Uri.LIF, container)
+        String json = Serializer.toPrettyJson(data)
+        data = Serializer.parse(json)
+        Container containerCopy = new Container((Map) data.payload)
+        assert 1 == containerCopy.views.size()
+        view = containerCopy.views[0]
+        Contains contains = view.getContains(Uri.POS)
+        assert contains != null
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream()
+//        PrintStream out = new PrintStream(stream)
+
+    }
     @Test
     void hasTimestamp() {
         View v = new View()

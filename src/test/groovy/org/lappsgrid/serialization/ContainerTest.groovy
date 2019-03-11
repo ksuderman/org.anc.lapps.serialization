@@ -465,6 +465,16 @@ public class ContainerTest {
         assertNotNull(url.text)
     }
 
+    @Test
+    void testDataContainer() {
+        InputStream stream = this.class.getResourceAsStream("/inception.json")
+        assert stream != null
+
+        String json = getResource("/inception.lif")
+        Container container = Serializer.parse(json, DataContainer).payload
+        assert 1 ==  container.views.size()
+        assert 325 == container.views[0].annotations.size()
+    }
 
     private String getResource(String name) {
         return this.class.getResource(name).getText('UTF-8')

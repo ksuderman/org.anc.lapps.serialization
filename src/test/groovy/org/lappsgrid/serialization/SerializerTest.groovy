@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.Test
 import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
+
 import static org.lappsgrid.discriminator.Discriminators.*
 
 /**
@@ -65,4 +67,5 @@ class SerializerTest {
         object.map.nullValue = null
         return object
     }
+
 }
