@@ -17,6 +17,8 @@
 package org.lappsgrid.serialization
 
 import org.junit.Test
+import org.lappsgrid.discriminator.Discriminators
+import org.lappsgrid.serialization.lif.Contains
 
 import java.time.ZonedDateTime
 
@@ -32,5 +34,22 @@ class UtilsTests {
 
         ZonedDateTime time = Utils.parseTime(t)
         assert t == time.toString()
+    }
+
+    @Test
+    void deepCopyMapWithContains() {
+        Contains contains = new Contains()
+        contains.setAtType(Discriminators.Uri.POS)
+        contains.setTagSet("tag-pos-penn")
+
+        Map data = [
+                id: "d1",
+                contains: contains
+        ]
+
+        Map copy = Utils.deepCopy(data)
+        assert 2 == copy.size()
+        assert "d1" == copy.id
+        assert copy.contains instanceof Contains
     }
 }
