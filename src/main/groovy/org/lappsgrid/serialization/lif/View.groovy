@@ -18,7 +18,6 @@ package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.Utils
 
 import java.time.LocalDateTime
@@ -37,7 +36,6 @@ import java.time.ZonedDateTime
  *
  * @author Keith Suderman
  */
-@CompileStatic
 @JsonPropertyOrder(['id', 'metadata', 'annotations'])
 public class View {
     /**
@@ -71,9 +69,9 @@ public class View {
             return
         }
         this.id = map['id']
-        this.metadata = Utils.deepCopy((Map) map.metadata)
+        this.metadata = Utils.deepCopy(map.metadata)
         annotations = []
-        map.annotations.each { Map a ->
+        map.annotations.each { a ->
             annotations << new Annotation(a)
         }
         this.setTimestamp()
@@ -151,21 +149,7 @@ public class View {
     }
 
     Contains getContains(String name) {
-        Object result = metadata?.contains[name]
-        if (result == null) {
-            return null
-        }
-        if (result instanceof Contains) {
-            return (Contains) result
-        }
-        // Issue #28. Depending on how/if the View was deserialized from JSON the
-        // 'contains' object may be a hash map.
-        if (result instanceof Map) {
-            Contains contains = new Contains((Map) result)
-            metadata.contains = contains
-            return contains
-        }
-        return null
+        return metadata?.contains[name]
     }
 
     /**
@@ -178,10 +162,7 @@ public class View {
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        Contains result = new Contains()
-        result.atType = name
-        result.setType(type)
-        result.setProducer(producer)
+        Contains result = new Contains(atType:name, producer:producer, type:type)
         metadata.contains[name] = result
         result
     }

@@ -19,8 +19,6 @@ package org.lappsgrid.serialization.lif
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import groovy.transform.CompileDynamic
-import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.LappsIOException
 import org.lappsgrid.serialization.LifException
 import org.lappsgrid.serialization.Utils
@@ -67,7 +65,6 @@ import org.lappsgrid.serialization.Utils
  *
  * @author Keith Suderman
  */
-@CompileStatic
 @JsonPropertyOrder(["context", '$schema', "metadata","text","views"])
 public class Container {
 
@@ -130,31 +127,24 @@ public class Container {
 
     /** Default (empty) constructor uses the remote context. */
     public Container() {
-        contextConstructor(ContextType.REMOTE)
+        this(ContextType.REMOTE)
     }
 
     public Container(Container container) {
-        copyConstructor(container)
-    }
-
-    public Container(Map map) {
-        mapConstructor(map)
-    }
-
-    public Container(Object object) {
-        if (object instanceof Map) {
-            mapConstructor((Map) object)
+        this.content = new Content(container.content)
+        this.metadata = Utils.deepCopy(container.metadata)
+        this.views = Utils.deepCopy(container.views)
+        if (container.context instanceof String) {
+            this.context = container.context
         }
-        else if (object instanceof Container) {
-            copyConstructor((Container) object)
-        }
-        else if (object instanceof ContextType) {
-            contextConstructor((ContextType) object)
+        else {
+            this.context = Utils.deepCopy((Map)container.context)
         }
     }
 
-    protected void contextConstructor(ContextType type) {
+    protected Container(ContextType type) {
         content = new Content()
+//        mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
         views = new ArrayList<View>()
         if (type == ContextType.LOCAL) {
@@ -165,16 +155,9 @@ public class Container {
         }
     }
 
-    protected void copyConstructor(Container container) {
-        this.content = new Content(container.content)
-        this.metadata = Utils.deepCopy(container.metadata)
-        this.views = Utils.deepCopy(container.views)
-        if (container.context instanceof String) {
-            this.context = container.context
-        }
-        else {
-            this.context = Utils.deepCopy((Map)container.context)
-        }
+
+    public Container(Map map) {
+        initFromMap(map)
     }
 
     @JsonIgnore
@@ -242,7 +225,6 @@ public class Container {
         views.findAll { it?.metadata?.contains && it.metadata.contains[type] }
     }
 
-    @CompileDynamic
     List<View> findViewsThatContainBy(String type, String producer) {
         views.findAll { it?.metadata?.contains && it.metadata.contains[type]?.producer == producer }
     }
@@ -261,7 +243,6 @@ public class Container {
         return this.metadata[name]
     }
 
-    @CompileDynamic
     void define(String name, String iri) throws LappsIOException
     {
         if (!(this.context instanceof Map)) {
@@ -286,8 +267,7 @@ public class Container {
         return id;
     }
 
-    @CompileDynamic
-    private void mapConstructor(Map map) {
+    private void initFromMap(Map map) {
         if (map == null) {
             return
         }

@@ -18,7 +18,6 @@ package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import groovy.transform.CompileStatic
 
 /**
  * The Content object is a JSON "value object", that is, a JSON object with a {@literal @}value
@@ -35,7 +34,6 @@ import groovy.transform.CompileStatic
  *
  * @author Keith Suderman
  */
-@CompileStatic
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Content {
     @JsonProperty('@value')
@@ -49,4 +47,9 @@ public class Content {
         this.value = content.value
         this.language = content.language
     }
+
+//    public Content(Map map) {
+//        this.value = map['value']
+//        this.language = map['language']
+//    }
 }

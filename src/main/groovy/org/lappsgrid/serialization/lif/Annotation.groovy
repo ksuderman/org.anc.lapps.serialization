@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import groovy.transform.CompileDynamic
-import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.LappsIOException
 import org.lappsgrid.serialization.Utils
 
@@ -30,7 +28,6 @@ import org.lappsgrid.serialization.Utils
  *
  * @author Keith Suderman
  */
-@CompileStatic
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonPropertyOrder(['id', 'start', 'end', '@type', 'label', 'features', 'metadata'])
 public class Annotation {
@@ -115,7 +112,6 @@ public class Annotation {
         }
     }
 
-    @CompileDynamic
     public Annotation(Map map) {
         map.each { key, value ->
             switch(key) {

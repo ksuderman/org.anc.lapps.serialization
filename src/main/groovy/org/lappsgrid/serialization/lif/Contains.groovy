@@ -19,7 +19,6 @@ package org.lappsgrid.serialization.lif
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.LifException
 
 import static org.lappsgrid.discriminator.Discriminators.Uri;
@@ -35,7 +34,6 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
  *
  * @author Keith Suderman
  */
-@CompileStatic
 @JsonPropertyOrder(['type', 'producer', 'url', 'tagSet', 'dependsOn'])
 class Contains {
 
@@ -43,50 +41,16 @@ class Contains {
     String atType
 
     // TODO: 3/1/2018 find a way to programmatically read in these names from vocabulary
-    static HashMap<String,String> tagsetKeys = [
-            (Uri.POS)                 : "posTagSet",
-            (Uri.NE)                  : "namedEntityCategorySet",
-            (Uri.PHRASE_STRUCTURE)    : "categorySet",
-            (Uri.DEPENDENCY_STRUCTURE): "dependencySet"
-    ]
+    static def tagsetKeys = [(Uri.POS)                 : "posTagSet",
+                             (Uri.NE)                  : "namedEntityCategorySet",
+                             (Uri.PHRASE_STRUCTURE)    : "categorySet",
+                             (Uri.DEPENDENCY_STRUCTURE): "dependencySet"]
 
     @Delegate
-    HashMap data
+    HashMap data = new HashMap()
 
-    Contains() {
-        data = new HashMap()
-    }
+//    List<DependsOn> dependencies = []
 
-    Contains(Map map) {
-        this()
-        map.each { key, value ->
-            put(key, value)
-        }
-    }
-
-    Contains(Contains contains) {
-        this()
-        contains.data.each { key, value ->
-            put(key, value)
-        }
-    }
-
-    Contains(Object object) {
-        Map map
-        if (object instanceof Map) {
-            map = (Map) object
-        }
-        else if (object instanceof Contains) {
-            map = ((Contains) object).data
-        }
-        // TODO See issue #18. Should throw if map == null
-        if (map) {
-            map.each { key, value ->
-                data[key] = value
-            }
-        }
-
-    }
     @JsonProperty
     void setUrl(String url) {
         data.url = url
@@ -112,8 +76,7 @@ class Contains {
 
     @JsonProperty
     void setTagSet(String value) throws LifException {
-
-        if (tagsetKeys.containsKey(atType)) {
+        if (tagsetKeys.containsKey(getAtType())) {
             String key = tagsetKeys[getAtType()]
             data[key] = value
         } else {
@@ -138,7 +101,7 @@ class Contains {
     }
 
     List<Dependency> getDependsOn() {
-        return (List<Dependency>) data.dependsOn
+        return data.dependsOn
     }
 
     void dependency(String view, String type) {
@@ -146,7 +109,7 @@ class Contains {
     }
 
     void dependency(Dependency dependency) {
-        List<Dependency> dependencies = getDependsOn()
+        List<Dependency> dependencies = data.dependsOn
         if (dependencies == null) {
             dependencies = []
             data.dependsOn = dependencies
