@@ -126,7 +126,7 @@ class ViewTests {
         }
     }
 
-    @Ignore
+    @Test
     void metadataWithContainsSerialization() {
         Container container = new Container()
         View view = container.newView()
@@ -136,6 +136,7 @@ class ViewTests {
         Data data = new Data(Uri.LIF, container)
         String json = Serializer.toPrettyJson(data)
         data = Serializer.parse(json)
+        println data.asPrettyJson()
         Container containerCopy = new Container((Map) data.payload)
         assert 1 == containerCopy.views.size()
         view = containerCopy.views[0]
