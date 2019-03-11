@@ -51,8 +51,42 @@ class Contains {
     ]
 
     @Delegate
-    HashMap data = new HashMap()
+    HashMap data
 
+    Contains() {
+        data = new HashMap()
+    }
+
+    Contains(Map map) {
+        this()
+        map.each { key, value ->
+            put(key, value)
+        }
+    }
+
+    Contains(Contains contains) {
+        this()
+        contains.data.each { key, value ->
+            put(key, value)
+        }
+    }
+
+    Contains(Object object) {
+        Map map
+        if (object instanceof Map) {
+            map = (Map) object
+        }
+        else if (object instanceof Contains) {
+            map = ((Contains) object).data
+        }
+        // TODO See issue #18. Should throw if map == null
+        if (map) {
+            map.each { key, value ->
+                data[key] = value
+            }
+        }
+
+    }
     @JsonProperty
     void setUrl(String url) {
         data.url = url
@@ -78,7 +112,8 @@ class Contains {
 
     @JsonProperty
     void setTagSet(String value) throws LifException {
-        if (tagsetKeys.containsKey(getAtType())) {
+
+        if (tagsetKeys.containsKey(atType)) {
             String key = tagsetKeys[getAtType()]
             data[key] = value
         } else {

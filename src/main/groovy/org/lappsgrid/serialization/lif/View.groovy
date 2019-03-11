@@ -151,7 +151,21 @@ public class View {
     }
 
     Contains getContains(String name) {
-        return (Contains) metadata?.contains[name]
+        Object result = metadata?.contains[name]
+        if (result == null) {
+            return null
+        }
+        if (result instanceof Contains) {
+            return (Contains) result
+        }
+        // Issue #28. Depending on how/if the View was deserialized from JSON the
+        // 'contains' object may be a hash map.
+        if (result instanceof Map) {
+            Contains contains = new Contains((Map) result)
+            metadata.contains = contains
+            return contains
+        }
+        return null
     }
 
     /**
@@ -164,7 +178,9 @@ public class View {
         if (metadata.contains == null) {
             metadata.contains = [:]
         }
-        Contains result = new Contains(atType:name, type:type)
+        Contains result = new Contains()
+        result.atType = name
+        result.setType(type)
         result.setProducer(producer)
         metadata.contains[name] = result
         result
