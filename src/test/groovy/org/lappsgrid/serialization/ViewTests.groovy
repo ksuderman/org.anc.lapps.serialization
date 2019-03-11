@@ -126,7 +126,7 @@ class ViewTests {
         }
     }
 
-    @Test
+    @Ignore
     void metadataWithContainsSerialization() {
         Container container = new Container()
         View view = container.newView()
