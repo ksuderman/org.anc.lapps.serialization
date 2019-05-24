@@ -18,11 +18,7 @@
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
         <artifactId>groovy-parent-pom</artifactId>
-<<<<<<< HEAD
-        <version>1.0.0</version>
-=======
         <version>1.1.1</version>
->>>>>>> release/v2.7.0
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
