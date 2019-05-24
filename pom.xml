@@ -18,13 +18,17 @@
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
         <artifactId>groovy-parent-pom</artifactId>
+<<<<<<< HEAD
         <version>1.0.0</version>
+=======
+        <version>1.1.1</version>
+>>>>>>> release/v2.7.0
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.lappsgrid</groupId>
     <artifactId>serialization</artifactId>
-    <version>2.6.0</version>
+    <version>2.7.0</version>
     <name>LAPPS Exchange Data Structures (LEDS)</name>
     <description>Data structures to serialize to/from JSON-LD.</description>
     <url>https://github.com/lapps/org.lappsgrid.serialization</url>
@@ -52,6 +56,7 @@
         <groovy.version>2.5.3</groovy.version>
         <ivy.version>2.4.0</ivy.version>
         <json.validator.version>1.1.2</json.validator.version>
+        <lapps.discriminator.version>2.4.0</lapps.discriminator.version>
     </properties>
     <dependencies>
         <dependency>

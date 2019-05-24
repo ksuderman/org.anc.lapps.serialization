@@ -13,8 +13,10 @@ env:
   - secure: J/N+eE60dqZJ7e+IUziCQfsuR2kS/tg9w8/ZSLEYH+AaKB384Gwq1vRyCzBLtRcZm0GgVYFb/E1DNjQJhkn2ES3Iz3Fn/bSawlMJLxeMIXJGXeCf9sja+Ci+smmTQyspQ/DuR09lWKplvZqaK+7uhoMUazrSpvcU7pseibnKFLE=
 before_install:
 - chmod a+x ./deploy.sh
+install:
+- mvn --settings settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-- mvn clean test --settings settings.xml
+- mvn test --settings settings.xml
 after_success:
 - if [ "$TRAVIS_BRANCH" == "master" ] ; then ./deploy.sh ; fi
 
