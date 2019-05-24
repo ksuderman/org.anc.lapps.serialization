@@ -14,7 +14,7 @@ env:
 before_install:
 - chmod a+x ./deploy.sh
 install:
-  - mvn --settings settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- mvn --settings settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
 - mvn test --settings settings.xml
 after_success:
