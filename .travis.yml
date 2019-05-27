@@ -3,15 +3,15 @@ branches:
   only:
   - develop
   - master
-  - release/.*
+  - /^release.*/
 env:
   global:
-  - secure: GBsEwsHQJ6jSHhOPwOJlFQeXqw7uEi7gICj0VSuDxi1JkQjlC2pBrB0D4HEzrb9mt6/pNz83yFzi7az8874jWYtSEtxzZCoUsyX2QiSiPM/BYYnmTnduPF0icVowrHw2f+kyNRuTIyKVT4jPeXNHnEFeXbDyOVQg0MjFqLG9kHg=
-  - secure: NLZhf0neJnN/ED68X7jNpDZHNPASQxPL3KJULrI1zmjoxJT6Qpu5ncyzPii7kxN3OBZdIRCE4f5qYVH0xFEeKtLbV+YPK6wfQ+lxw0rmuOigwOJ5gqq/AJ+GR9qCCZ4PJnGQUUdPa1ln4gcvm2CGyRYOUuxLHYqJEYS4ao7P9OE=
-  - secure: TTSpfeQzVcpbFwzrIVfIiUbdXiKnGQN5TtwNeDNnHE4TcsusNXl1q85o1uo2OnhjDbj8sDec5WaeN60EufU3fNIUzafn/fEAdVa4o69pJcsKVsoAx4zK5dnKeYB5sJ+d/BtIBad31gYhYZ1eaakH84Yzzxxc/7NKxvznzHtK2Ow=
-  - secure: bivmHzTSrjlG3DGfCyF4DJYunPVx8B9M5c4KhSGcBd3ofm2GLHh5uqHXY+eO/gEyYhEIttf5v3O7EPwqJwm9qCkvLtrKxceKyPXVT+5YP/83NEHj9FKGYnlEMvIYwceVQkJnbaoZuDC1xSCxDQqowvk/H1k+TnVQKYNU3+dsgq4=
-  - secure: USyKGcQu3/DcpvkhPWj11biDVP8wyin0F+PZpscw+WehqC68RyUUcnoBkumZeJpJ4y1Qvf4ixBBNBNtrSUW9FeMQmXb1iCV2UbfAOIVNbo151zW8ULKLC0H8uZb/iffmUBvmJQn8CrF/6tL4vvIboo7Ka89Bex3nb6nuGqIgc00=
-  - secure: Wk8DcnywyeSGBuNWEQtshhOtPnj3dZWnfQLFeaEupRIEWmJFN1A8lGpmz4+5JzCQ/unV7AzqOdYSq1VDgvJtpzcgdIhxBsUcNQWp1CRo/wAuG4+/klWI3+Kdd8y9QXvvJMCm0/HizC1vN9Ytzwfl5auu/E6UKFu90hZHmIYifo8=
+  - secure: SPcGHXg5BWuIUEGU4LVXVvetGZKv4l7w5tp2US0B0v03/ag8MR9aumORks31MQlyWr08o2GZ6VRE7a5G9nPVNAHSELVa8Z+RiHN0LeLGkGS9X4TM6p4vc+6d1Zf09jFILZtvDhtlymq6EKJOeamMHQOdfaTGVQpdpUihz+JBnHE=
+  - secure: eNMs+B8m3vp77uvPox91ZJy0ZLU6UpPK3w9H3z7szfPuCElWIWixySCpP+rkQWxJrAkevNezn4ts0kYWgIJaLJFxc5OkREmMzSNa3UQ8CbDR1s39LadlFku8osIjUlx95HpqxNSrDus7Xkzu/Idbt1PDh/js/4gcCjwrIEGVnAg=
+  - secure: a7mJzxd8erM6Yy1NjHyTh5nGo2719xMzYzJtg5VRtI7BQtGGcNhT+5+luThbOH5RTNsrYBXsyQlYH/OR6F21TRo4G8+M+a9EpA2pn7Iiiyn73p+KYuI6MRIifDSf0ZAJSgb1EuNVbZ8Uc1BJmR0qg0TMQd6omoieOuh3cZ9bSIA=
+  - secure: KJUD+LO8JNMq9TJIDlEbInI9WMA/LEN6diTso54zUbAnFghtngKgTkIwC7nYmmQG+NumBnUeMZd0N9z+p4pqjOVwqzjK8N8Ebl7AR5XqAd8UIVBr4wR4FWu1Ka/YXAiIqO0z1mzvihFoXdJK6YF/MhY3S7n+/XwkdugYqCeG+2w=
+  - secure: N5nDwOMugJAJrKM4jVFDtQHsZG76wwfoFuV3kBQmOWaVdYpZpTidm6TL7QXkMsgO/u4chF7EXSv0BHGV4hnsDnhFtPF7bn8M40FnEPGiSkt3BwJBwq2yoPc3zcA+3dQGyiINWpNQ+FrKd4pe6JuEtCIqaW7xpXzo/ldei9py75k=
+  - secure: E9aFbPsD5QgeHNVAwpeklNiZhIUmnCD89rF+H09vJ0I3j/RKFhkRkv+e1tJjj4TLfgD6N3mFd9NzmVil/jiLbeTmE43F0MoLjMivsP/ie7vQH7KXUdPKf/vTdKxQfGi0zn40pcGYxpKAy85tVvw8jDdqKxPGTaqOcivl+z6zU8g=
 stages:
 - name: Unit Tests
   if: branch = develop
@@ -35,5 +35,9 @@ jobs:
   - stage: Master
     install: mvn --settings settings.xml -DskipTests=true -Dmaven.javadoc.skip=true
       -B -V install
+<<<<<<< HEAD
     script: mvn --settings settings.xml clean test
 
+=======
+    script: mvn --settings settings.xml clean test site
+>>>>>>> release/v2.7.0

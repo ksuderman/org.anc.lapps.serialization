@@ -18,7 +18,7 @@
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
         <artifactId>groovy-parent-pom</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -52,7 +52,6 @@
         <groovy.version>2.5.3</groovy.version>
         <ivy.version>2.4.0</ivy.version>
         <json.validator.version>1.1.2</json.validator.version>
-        <lapps.discriminator.version>2.3.3</lapps.discriminator.version>
     </properties>
     <dependencies>
         <dependency>
