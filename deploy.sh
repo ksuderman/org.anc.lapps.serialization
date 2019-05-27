@@ -28,4 +28,4 @@ mvn -DskipTests=true package groovydoc:generate source:jar deploy -Dgpg.passphra
 
 # 4. Build and deploy the Maven site to the gh_pages branch.
 #src/test/resources/lappsdoc
-mvn site --settings settings.xm -Pstaging
+#mvn site --settings settings.xml -Pstaging
