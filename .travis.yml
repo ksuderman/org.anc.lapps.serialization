@@ -3,7 +3,7 @@ branches:
   only:
   - develop
   - master
-  - release/.*
+  - /^release.*/
 env:
   global:
   - secure: SPcGHXg5BWuIUEGU4LVXVvetGZKv4l7w5tp2US0B0v03/ag8MR9aumORks31MQlyWr08o2GZ6VRE7a5G9nPVNAHSELVa8Z+RiHN0LeLGkGS9X4TM6p4vc+6d1Zf09jFILZtvDhtlymq6EKJOeamMHQOdfaTGVQpdpUihz+JBnHE=
@@ -35,4 +35,4 @@ jobs:
   - stage: Master
     install: mvn --settings settings.xml -DskipTests=true -Dmaven.javadoc.skip=true
       -B -V install
-    script: mvn --settings settings.xml clean test
+    script: mvn --settings settings.xml clean test site
