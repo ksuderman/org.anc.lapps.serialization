@@ -18,7 +18,6 @@
 package org.lappsgrid.serialization
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.aas.Token
 
 /**
@@ -30,7 +29,6 @@ import org.lappsgrid.serialization.aas.Token
  *
  * @author Keith Suderman
  */
-@CompileStatic
 public class Data<T> {
     /**
      * A URI that specifies the content of the payload.  The URI must be one of
@@ -63,7 +61,7 @@ public class Data<T> {
     public Data(Map map) {
         this.discriminator = map.discriminator
         this.payload = map.payload
-        this.parameters = (Map) map.parameters
+        this.parameters = map.parameters
     }
 
     @JsonIgnore

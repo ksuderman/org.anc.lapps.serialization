@@ -48,6 +48,8 @@
         <system>travis</system>
     </ciManagement>
     <properties>
+        <lapps.discriminator.version>2.3.3</lapps.discriminator.version>
+        <groovy.version>2.5.3</groovy.version>
         <ivy.version>2.4.0</ivy.version>
         <json.validator.version>1.1.2</json.validator.version>
     </properties>

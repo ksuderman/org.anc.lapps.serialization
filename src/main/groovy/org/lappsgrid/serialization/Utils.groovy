@@ -1,6 +1,5 @@
 package org.lappsgrid.serialization
 
-import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View

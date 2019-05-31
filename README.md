@@ -20,7 +20,7 @@ To use this package you need to add following dependency to the project's pom.xm
 <dependency>
   <groupId>org.lappsgrid</groupId>
   <artifactId>serialization</artifactId>
-  <version>${use.version.shown.above}</version>
+  <version>2.4.0</version>
 </dependency>
 ```
 

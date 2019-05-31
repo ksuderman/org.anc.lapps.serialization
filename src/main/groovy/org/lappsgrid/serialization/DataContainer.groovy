@@ -17,18 +17,18 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
  */
 class DataContainer extends Data<Container> {
     DataContainer() {
-        this.discriminator = Uri.LIF
+        this.discriminator = Uri.LAPPS
         this.parameters = [:]
     }
 
     DataContainer(Container payload) {
-        this.discriminator = Uri.LIF
+        this.discriminator = Uri.LAPPS
         this.payload = payload;
         this.parameters = [:]
     }
 
     DataContainer(Map map) {
-        this.discriminator = Uri.LIF
+        this.discriminator = Uri.LAPPS
         this.payload = map.payload
         this.parameters = map.parameters
     }
