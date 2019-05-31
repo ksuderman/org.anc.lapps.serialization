@@ -35,9 +35,4 @@ jobs:
   - stage: Master
     install: mvn --settings settings.xml -DskipTests=true -Dmaven.javadoc.skip=true
       -B -V install
-<<<<<<< HEAD
     script: mvn --settings settings.xml clean test
-
-=======
-    script: mvn --settings settings.xml clean test site
->>>>>>> release/v2.7.0
