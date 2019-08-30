@@ -4,7 +4,6 @@ import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
 
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 

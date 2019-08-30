@@ -19,6 +19,7 @@ package org.lappsgrid.serialization.lif
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.LappsIOException
 import org.lappsgrid.serialization.LifException
 import org.lappsgrid.serialization.Utils

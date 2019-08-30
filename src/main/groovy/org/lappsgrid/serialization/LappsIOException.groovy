@@ -16,11 +16,14 @@
  */
 package org.lappsgrid.serialization
 
+import groovy.transform.CompileStatic
+
 import java.io.IOException
 
 /**
  * @author Keith Suderman
  */
+@CompileStatic
 public class LappsIOException extends IOException
 {
    public LappsIOException(String s)

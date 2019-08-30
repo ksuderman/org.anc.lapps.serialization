@@ -17,6 +17,7 @@
 package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import groovy.transform.CompileStatic
 
 /**
  * A JSON-LD <a href="http://www.w3.org/TR/json-ld/#dfn-value-object">value object</a>.
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * This class isn't currently used anywhere anymore.
  * @author Keith Suderman
  */
+@CompileStatic
 class ValueObject {
     @JsonProperty('@value')
     String value

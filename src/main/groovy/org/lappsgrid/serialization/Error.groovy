@@ -17,6 +17,8 @@
 
 package org.lappsgrid.serialization
 
+import groovy.transform.CompileStatic
+
 import static org.lappsgrid.discriminator.Discriminators.Uri
 
 /**
@@ -26,6 +28,7 @@ import static org.lappsgrid.discriminator.Discriminators.Uri
  *
  * @author Keith Suderman
  */
+@CompileStatic
 class Error extends Data<String> {
 
     public Error() {

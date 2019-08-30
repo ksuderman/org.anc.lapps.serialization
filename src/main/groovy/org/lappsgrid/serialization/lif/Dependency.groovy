@@ -17,10 +17,12 @@
 package org.lappsgrid.serialization.lif
 
 import groovy.transform.Canonical
+import groovy.transform.CompileStatic
 
 /**
  * @author Keith Suderman
  */
+@CompileStatic
 @Canonical
 class Dependency {
     String view

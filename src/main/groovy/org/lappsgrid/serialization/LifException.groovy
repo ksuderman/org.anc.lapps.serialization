@@ -16,9 +16,12 @@
 
 package org.lappsgrid.serialization
 
+import groovy.transform.CompileStatic
+
 /**
  * @author Keith Suderman
  */
+@CompileStatic
 class LifException extends SerializationException {
     LifException() {
     }

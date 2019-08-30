@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
 import org.lappsgrid.serialization.LappsIOException
 import org.lappsgrid.serialization.Utils
 

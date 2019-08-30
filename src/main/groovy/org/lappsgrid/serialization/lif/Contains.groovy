@@ -19,6 +19,7 @@ package org.lappsgrid.serialization.lif
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.LifException
 
 import static org.lappsgrid.discriminator.Discriminators.Uri;
@@ -34,6 +35,7 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
  *
  * @author Keith Suderman
  */
+@CompileStatic
 @JsonPropertyOrder(['type', 'producer', 'url', 'tagSet', 'dependsOn'])
 class Contains {
 
@@ -41,7 +43,7 @@ class Contains {
     String atType
 
     // TODO: 3/1/2018 find a way to programmatically read in these names from vocabulary
-    static def tagsetKeys = [(Uri.POS)                 : "posTagSet",
+    static Map tagsetKeys = [(Uri.POS)                 : "posTagSet",
                              (Uri.NE)                  : "namedEntityCategorySet",
                              (Uri.PHRASE_STRUCTURE)    : "categorySet",
                              (Uri.DEPENDENCY_STRUCTURE): "dependencySet"]
@@ -101,7 +103,7 @@ class Contains {
     }
 
     List<Dependency> getDependsOn() {
-        return data.dependsOn
+        return (List<Dependency>) data.dependsOn
     }
 
     void dependency(String view, String type) {
@@ -109,7 +111,7 @@ class Contains {
     }
 
     void dependency(Dependency dependency) {
-        List<Dependency> dependencies = data.dependsOn
+        List<Dependency> dependencies = (List<Dependency>) data.dependsOn
         if (dependencies == null) {
             dependencies = []
             data.dependsOn = dependencies

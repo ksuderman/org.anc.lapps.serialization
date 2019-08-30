@@ -1,5 +1,6 @@
 package org.lappsgrid.serialization
 
+import groovy.transform.CompileStatic
 import org.lappsgrid.serialization.lif.Container
 import static org.lappsgrid.discriminator.Discriminators.Uri;
 
@@ -15,6 +16,7 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
  *
  * @author Keith Suderman
  */
+@CompileStatic
 class DataContainer extends Data<Container> {
     DataContainer() {
         this.discriminator = Uri.LAPPS
@@ -29,7 +31,7 @@ class DataContainer extends Data<Container> {
 
     DataContainer(Map map) {
         this.discriminator = Uri.LAPPS
-        this.payload = map.payload
-        this.parameters = map.parameters
+        this.payload = (Container) map.payload
+        this.parameters = (Map) map.parameters
     }
 }
